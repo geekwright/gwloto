@@ -1,0 +1,50 @@
+<{include file="db:gwloto_header.html"}>
+<{if isset($body)}>
+<div><{$body}></div>
+<{/if}>
+
+<{if is_array($steps) && count($steps) > 0 }>
+<br />
+<table width='100%' border='0' cellspacing='1' class='outer'>
+<tr><th colspan="4"><{$smarty.const._MD_GWLOTO_STEP_RPT_TITLE}></th></tr>
+<tr>
+<th><{$smarty.const._MD_GWLOTO_STEP_CPLAN}></th>
+<th><{$smarty.const._MD_GWLOTO_STEP_NAME}></th>
+<th><{$smarty.const._MD_GWLOTO_STEP_STATUS}></th>
+<th><{$smarty.const._MD_GWLOTO_STEP_ASSIGNED}></th>
+</tr>
+<{foreach key=jid item=step from=$steps }>
+<tr>
+<td><a href="viewstep.php?jid=<{$step.job}>&cpid=<{$step.cplan}>"><{$step.cplan_name}></a></td>
+<td><{$step.step_name}></td>
+<td><{$step.display_job_step_status}></td>
+<td><{$step.assigned_name}></td>
+</tr>
+<{/foreach}>
+</table>
+<{/if}>
+
+<{if is_array($jobs) && count($jobs) > 0 }>
+<br />
+<table width='100%' border='0' cellspacing='1' class='outer'>
+<tr><th colspan="4"><{$smarty.const._MD_GWLOTO_JOB_RPT_TITLE}></th></tr>
+<tr>
+<th><{$smarty.const._MD_GWLOTO_JOB_NAME}></th>
+<th><{$smarty.const._MD_GWLOTO_JOB_STATUS}></th>
+<th><{$smarty.const._MD_GWLOTO_JOB_WORKORDER}></th>
+<th><{$smarty.const._MD_GWLOTO_JOB_STARTDATE}></th>
+</tr>
+<{foreach key=jid item=job from=$jobs }>
+<tr>
+<td><a href="viewjob.php?jid=<{$jid}>"><{$job.job_name}></a></td>
+<td><{$job.display_job_status}></td>
+<td><{$job.job_workorder}></td>
+<td><{$job.job_startdate}></td>
+</tr>
+<{/foreach}>
+</table>
+<{/if}>
+
+<{if isset($debug)}>
+<br /><div><{$debug}></div>
+<{/if}>

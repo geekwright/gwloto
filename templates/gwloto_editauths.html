@@ -1,0 +1,24 @@
+<{include file="db:gwloto_header.html"}>
+<div><a href="index.php?pid=<{$currentplace}>"><{$smarty.const._MD_GWLOTO_USERAUTH_EXIT}></a></div>
+<{if isset($body)}>
+<div><{$body}></div>
+<{/if}>
+
+<{if is_array($report) && count($report) > 0 }>
+<br />
+<table width='100%' border='0' cellspacing='1' class='outer'>
+<tr><th colspan="2" align="center"><{$smarty.const._MD_GWLOTO_USERAUTH_RPT_TITLE}></th></tr>
+<tr><th><{$smarty.const._MD_GWLOTO_USERAUTH_RPT_PLACE}></th>
+<th><{$smarty.const._MD_GWLOTO_USERAUTH_RPT_AUTHS}></th></tr>
+<{assign var='rptcnt' value=$report|@count}>
+<{section name=i start=0 loop=$rptcnt step=1 }>
+<tr class="<{cycle values="odd,even"}>">
+<td><a href="?uid=<{$auth_uid}>&pid=<{$report[i].pid}>"><{$report[i].pname}></a></td>
+<td><a href="?uid=<{$auth_uid}>&pid=<{$report[i].pid}>"><{$report[i].aname}></a></td></tr>
+<{/section}>
+</table>
+<{/if}>
+
+<{if isset($debug)}>
+<br /><div><{$debug}></div>
+<{/if}>
