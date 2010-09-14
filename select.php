@@ -277,6 +277,20 @@ function deletePoint($ptid) {
 	return true;
 }
 
+function copyMediaAttach($attach_type, $oldid, $newid, $uid) {
+	global $xoopsDB;
+
+	$sql ='INSERT INTO '.$xoopsDB->prefix('gwloto_media_attach');
+	$sql.=' (attach_type, generic_id, media_id, media_order, required, last_changed_by, last_changed_on) ';
+	$sql.=" SELECT attach_type, $newid, media_id, media_order, required, $uid, UNIX_TIMESTAMP() ";
+	$sql.=' FROM '.$xoopsDB->prefix('gwloto_media_attach');
+	$sql.=" WHERE generic_id = $oldid AND attach_type='$attach_type' ";
+
+	$result = $xoopsDB->queryF($sql);
+	if ($result) return true;
+	else return false;
+}
+
 function copyPlan($pid,$cpid,$uid) {
 	global $xoopsDB;
 	global $err_message,$myuserid;
@@ -313,6 +327,7 @@ function copyPlan($pid,$cpid,$uid) {
 	}
 
 	if(!$dberr) {
+		copyMediaAttach('plan', $cpid, $new_plan_id, $uid);
 		$cpoints=array();
 
 		$sql='SELECT * FROM '. $xoopsDB->prefix('gwloto_cpoint');
@@ -345,6 +360,7 @@ function copyPlan($pid,$cpid,$uid) {
 			$result = $xoopsDB->queryF($sql);
 			if ($result) {
 				$cpoints[$i]['new_cpoint'] = $xoopsDB->getInsertId();
+				copyMediaAttach('point', $cpoints[$i]['cpoint_id'], $cpoints[$i]['new_cpoint'], $uid);
 			}
 			else {
 				$dberr=true;
@@ -408,6 +424,8 @@ function copyPoint($cpid,$ptid,$uid) {
 
 	if(!$dberr) {
 		$new_point_id = $xoopsDB->getInsertId();
+		copyMediaAttach('point', $ptid, $new_point_id , $uid);
+
 		$sql ='INSERT INTO '.$xoopsDB->prefix('gwloto_cpoint_detail');
 		$sql.=' (cpoint, language_id, cpoint_name, disconnect_instructions, disconnect_state, reconnect_instructions, reconnect_state, inspection_instructions, last_changed_by, last_changed_on) ';
 		$sql.=" SELECT $new_point_id, language_id, cpoint_name, disconnect_instructions, disconnect_state, reconnect_instructions, reconnect_state, inspection_instructions, $uid, UNIX_TIMESTAMP() ";
@@ -570,7 +588,7 @@ if(isset($_POST['op_cancel'])) {
 }
 
 // leave if we don't have any edit authority
-if(!(isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT]) || isset($places['currentauth'][_GWLOTO_USERAUTH_PL_EDIT]) || isset($places['currentauth'][_GWLOTO_USERAUTH_JB_EDIT]) || isset($places['currentauth'][_GWLOTO_USERAUTH_MD_EDIT]) )) {
+if(!(isset($places['alluserauth'][_GWLOTO_USERAUTH_CP_EDIT]) || isset($places['alluserauth'][_GWLOTO_USERAUTH_PL_EDIT]) || isset($places['alluserauth'][_GWLOTO_USERAUTH_JB_EDIT]) || isset($places['alluserauth'][_GWLOTO_USERAUTH_MD_EDIT]) )) {
 	redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
 }
 
@@ -746,6 +764,15 @@ switch($op) {
 		break;
 	// move operations
 	case 'mv_point':
+		// check auth on move source
+		$check_pid=getPlaceFromCplan(getCplanFromPoint($cb_ptid));
+		$dummy=false;
+		$targetauths=array();
+		buildPlaceChain($myuserid,$check_pid,$targetauths,$dummy,$dummy,$dummy);
+		if(!isset($targetauths[_GWLOTO_USERAUTH_CP_EDIT])) {
+			redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
+		}
+		// check auth on move destination
 		if(!isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT])) {
 			redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
 		}
@@ -759,6 +786,15 @@ switch($op) {
 		}
 		break;
 	case 'mv_plan':
+		// check auth on move source
+		$check_pid=getPlaceFromCplan($cb_cpid);
+		$dummy=false;
+		$targetauths=array();
+		buildPlaceChain($myuserid,$check_pid,$targetauths,$dummy,$dummy,$dummy);
+		if(!isset($targetauths[_GWLOTO_USERAUTH_CP_EDIT])) {
+			redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
+		}
+		// check auth on move destination
 		if(!isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT])) {
 			redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
 		}
@@ -772,6 +808,14 @@ switch($op) {
 		}
 		break;
 	case 'mv_place':
+		// check auth on move source
+		$dummy=false;
+		$targetauths=array();
+		buildPlaceChain($myuserid,$cb_pid,$targetauths,$dummy,$dummy,$dummy);
+		if(!isset($targetauths[_GWLOTO_USERAUTH_PL_EDIT])) {
+			redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
+		}
+		// check auth on move destination
 		if(!isset($places['currentauth'][_GWLOTO_USERAUTH_PL_EDIT])) {
 			redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
 		}
@@ -829,16 +873,30 @@ switch($op) {
 //	$caption = _MD_GWLOTO_EDITPLAN_NAME;
 	$form->addElement(new XoopsFormLabel($caption, $selname, 'sel_name'),false);
 
+	$show_delete=false;
+	$show_movecopy=false;
+	switch($idname) {
+		case 'pid':
+			$show_delete=isset($places['currentauth'][_GWLOTO_USERAUTH_PL_EDIT]);
+			$show_movecopy=isset($places['alluserauth'][_GWLOTO_USERAUTH_PL_EDIT]);
+			break;
+		case 'cpid':
+		case 'ptid':
+			$show_delete=isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT]);
+			$show_movecopy=isset($places['alluserauth'][_GWLOTO_USERAUTH_CP_EDIT]);
+			break;
+	}
+
 // XoopsFormLabel( [string $caption = ""], [string $value = ""], [ $name = ""])
 	$form->addElement(new XoopsFormHidden($idname, $idvalue));
 
-
+if($show_delete) {
 	$button= new XoopsFormButton(_MD_GWLOTO_DELETE_SELECTED, 'op_delete', _MD_GWLOTO_DELETE_SEL_BUTTON, 'submit');
-$button->setExtra('onClick="return confirm(\''._MD_GWLOTO_DELETE_SEL_CONFIRM.'\')"');
-
+	$button->setExtra('onClick="return confirm(\''._MD_GWLOTO_DELETE_SEL_CONFIRM.'\')"');
 	$form->addElement($button);
+}
 
-if($idname!='mid') {
+if($show_movecopy) {
 	$form->addElement(new XoopsFormButton(_MD_GWLOTO_MOVECOPY_SELECTED, 'op_movecopy', _MD_GWLOTO_MOVECOPY_SEL_BUTTON, 'submit'));
 }
 

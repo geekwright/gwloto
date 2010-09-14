@@ -336,7 +336,8 @@ else { // view only
 	$body=$form->render();
 }
 
-getAttachedMedia('jobstep', $currentjobstep, $language, $user_can_edit);
+//getAttachedMedia('jobstep', $currentjobstep, $language, $user_can_edit);
+getAttachedMedia('plan', $currentplan, $language, false);
 
 $steps=getJobSteps($currentjob);
 if(isset($steps)) $xoopsTpl->assign('steps', $steps);

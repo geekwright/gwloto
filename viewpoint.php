@@ -190,7 +190,7 @@ if(isset($places['currentauth'][_GWLOTO_USERAUTH_CP_TRANS])) {
 $cpoints=getControlPoints($currentplan, $language, 'seq_disconnect');
 if(isset($cpoints)) $xoopsTpl->assign('cpoints', $cpoints);
 
-//$canedit=isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT]);
+//$canedit=false;
 //$media=getAttachedMedia('point', $currentpoint, $language, $canedit);
 
 //$debug="op=$op  language=$language displayed_lid=$displayed_lid <br />";

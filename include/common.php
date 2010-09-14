@@ -78,7 +78,7 @@ function setClipboard($uid,$clipboard_type='',$clipboard_id=0) {
 		if($rcnt==0) {
 			$sql ='INSERT into '.$xoopsDB->prefix('gwloto_user');
 			$sql.="(uid, clipboard_type, clipboard_id, last_changed_by, last_changed_on) ";
-			$sql.="VALUES ($uid, $clipboard_type, '$clipboard_id', $uid, UNIX_TIMESTAMP())";
+			$sql.="VALUES ($uid, '$clipboard_type', '$clipboard_id', $uid, UNIX_TIMESTAMP())";
 			$result = $xoopsDB->queryF($sql);
 		}
 	}
@@ -361,19 +361,78 @@ $placesummary=array();
 	}
 }
 
-function XaddCurrentAuth($uid,$pid,$autharray) {
+function buildPlaceChain($uid,$pid,&$autharray,&$chainup,&$chaindown,&$allautharray) {
 global $xoopsDB;
 
-	$sql='SELECT authority FROM  ' . $xoopsDB->prefix('gwloto_user_auth');
-	$sql.=" WHERE uid=$uid AND place_id=$pid";
+	$startplace=$pid;
+	$inclause=array();;
+	$killcnt=100; // just a safety net
 
+	while($startplace!=0) {
+
+		if(isset($sql)) unset($sql);
+		if(isset($result)) unset($result);
+		if(isset($myrow)) unset($myrow);
+
+		$sql='SELECT place_id, parent_id FROM '.$xoopsDB->prefix('gwloto_place');
+		$sql.=" WHERE place_id=$startplace";
+
+		$result = $xoopsDB->query($sql);
+		if ($result) {
+			while($myrow=$xoopsDB->fetchArray($result)) {
+				if(is_array($chainup)) $chainup[$myrow['place_id']]=$myrow['parent_id'];
+				if(is_array($chaindown)) $chaindown[$myrow['parent_id']]=$myrow['place_id'];
+
+				$inclause[$myrow['place_id']]=true;
+
+				$startplace=$myrow['parent_id'];
+			}
+		}
+		--$killcnt;
+		if($killcnt<0) break;
+	}
+
+	if(is_array($autharray)) {
+		$sql='SELECT place_id, authority FROM  ' . $xoopsDB->prefix('gwloto_user_auth');
+		$sql.=" WHERE uid=$uid ";
+		$sql.=" ORDER BY authority, place_id ";
+
+		$result = $xoopsDB->query($sql);
+		if ($result) {
+			while($myrow=$xoopsDB->fetchArray($result)) {
+				if(isset($inclause[$myrow['place_id']])) $autharray[$myrow['authority']]=true;
+				if(is_array($allautharray)) $allautharray[$myrow['authority']][$myrow['place_id']]=true;
+			}
+		}
+	}
+}
+
+function getCplanFromPoint($ptid) {
+	global $xoopsDB;
+	$cplan=false;
+	$sql='SELECT cplan_id FROM '.$xoopsDB->prefix('gwloto_cpoint');
+	$sql.=" WHERE cpoint_id = $ptid";
 	$result = $xoopsDB->query($sql);
 	if ($result) {
 		while($myrow=$xoopsDB->fetchArray($result)) {
-			$autharray[$myrow['authority']]=true;
+			$cplan=$myrow['cplan_id'];
 		}
 	}
-	return($autharray);
+	return $cplan;
+}
+
+function getPlaceFromCplan($cpid) {
+	global $xoopsDB;
+	$pid=false;
+	$sql='SELECT place_id FROM '.$xoopsDB->prefix('gwloto_cplan');
+	$sql.=" WHERE cplan_id = $cpid";
+	$result = $xoopsDB->query($sql);
+	if ($result) {
+		while($myrow=$xoopsDB->fetchArray($result)) {
+			$pid=$myrow['place_id'];
+		}
+	}
+	return $pid;
 }
 
 function getPlacesByUserAuth($uid,$authority,$language) {

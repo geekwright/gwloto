@@ -14,6 +14,8 @@
 
 $showcbform=false;
 $showjobcbform=false;
+$showmove=false;
+$showcopy=true;
 $clipid=0;
 $cliptype='';
 
@@ -29,6 +31,14 @@ if($cliptype=='POINT') {
 		$idname='cpid';
 		$idvalue=$currentplan;
 		$showcbform=true;
+		// check auth on move source
+		$check_pid=getPlaceFromCplan(getCplanFromPoint($clipid));
+		$dummy=false;
+		$targetauths=array();
+		buildPlaceChain($myuserid,$check_pid,$targetauths,$dummy,$dummy,$dummy);
+		if(isset($targetauths[_GWLOTO_USERAUTH_CP_EDIT])) {
+			$showmove=true;
+		}
 	}
 }
 elseif($cliptype=='PLAN')  {
@@ -49,6 +59,16 @@ elseif($cliptype=='PLAN')  {
 			$idname='pid';
 			$idvalue=$currentplace;
 			$showcbform=true;
+			// check auth on move source
+			$check_pid=getPlaceFromCplan($clipid);
+			if($check_pid!=$currentplace) {
+				$dummy=false;
+				$targetauths=array();
+				buildPlaceChain($myuserid,$check_pid,$targetauths,$dummy,$dummy,$dummy);
+				if(isset($targetauths[_GWLOTO_USERAUTH_CP_EDIT])) {
+					$showmove=true;
+				}
+			}
 		}
 	}
 }
@@ -60,6 +80,8 @@ elseif($cliptype=='PLACE') {
 		$idvalue=$currentplace;
 		// don't show if currentplace is under clipboard place
 		$showcbform=!(isset($places['chainup'][$clipid]));
+		$showmove=true;
+		$showcopy=false;
 	}
 }
 elseif($cliptype=='JOB') {
@@ -83,14 +105,10 @@ if($showcbform) {
 
 	$form->addElement(new XoopsFormHidden($idname, $idvalue));
 
-//	$form->addElement(new XoopsFormButton(_MD_GWLOTO_MOVE_SELECTED, 'op_move', _MD_GWLOTO_MOVE_SEL_BUTTON, 'submit'));
-	$form->addElement(new XoopsFormButton('', 'op_move', _MD_GWLOTO_MOVE_SELECTED, 'submit'));
+	if($showmove) $form->addElement(new XoopsFormButton('', 'op_move', _MD_GWLOTO_MOVE_SELECTED, 'submit'));
 
-if($cliptype!='PLACE') { // can't copy a place
-//	$form->addElement(new XoopsFormButton(_MD_GWLOTO_COPY_SELECTED, 'op_copy', _MD_GWLOTO_COPY_SEL_BUTTON, 'submit'));
-	$form->addElement(new XoopsFormButton('', 'op_copy', _MD_GWLOTO_COPY_SELECTED, 'submit'));
-}
-//	$form->addElement(new XoopsFormButton(_MD_GWLOTO_CANCEL_SELECTED, 'op_cancel', _MD_GWLOTO_CANCEL_SEL_BUTTON, 'submit'));
+	if($showcopy) $form->addElement(new XoopsFormButton('', 'op_copy', _MD_GWLOTO_COPY_SELECTED, 'submit'));
+
 	$form->addElement(new XoopsFormButton('', 'op_cancel', _MD_GWLOTO_CANCEL_SELECTED, 'submit'));
 
 	$cbform=$form->render();

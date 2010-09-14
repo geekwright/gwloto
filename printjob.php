@@ -137,10 +137,14 @@ if($currentplan) {
 	$form = new XoopsThemeForm($formtitle, 'form1', 'printjob.php', 'POST', $token);
 	$form->setExtra(' target="_blank" ');
 
+if(!$currentplan)  {
 	$caption = _MD_GWLOTO_JOB_NAME;
 	$form->addElement(new XoopsFormLabel($caption, htmlspecialchars($job_name, ENT_QUOTES), 'job_name'));
+}
+else  {
+	$caption = _MD_GWLOTO_JOB_NAME;
+	$form->addElement(new XoopsFormLabel($caption, '<a href="printjob.php?jid='.$currentjob.'">'.htmlspecialchars($job_name, ENT_QUOTES).'</a>', 'job_name'));
 
-if($currentplan)  {
 	$caption = _MD_GWLOTO_JOBSTEP_PLAN;
 	$cplan_name=htmlspecialchars(getCplanName($currentplan, $language), ENT_QUOTES);
 	$form->addElement(new XoopsFormLabel($caption, '<a href="viewplan.php?cpid='.$currentplan.'">'.$cplan_name.'</a>', 'cplan_name'),false);

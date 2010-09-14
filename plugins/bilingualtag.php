@@ -37,8 +37,8 @@ $tagcnt=0;
 $tagtotal=0;
 $firstinstep=false;
 
-$xoffset=0.5;
-$yoffset=0.5;
+$xoffset=0.75;
+$yoffset=0.1;
 
 // set the languages to use
 $lang_one=0;
@@ -55,7 +55,7 @@ global $xmedia, $ymedia, $xoffset, $yoffset;
 	$pdf->setPrintHeader(false);
 	$pdf->setPrintFooter(false);
 
-	$pdf->SetMargins(0.2, 0.2, 0.2, true);
+	$pdf->SetMargins(0.1, 0.1, 0.1, true);
 	$pdf->SetAutoPageBreak(false,0);
 
 	$pdf->SetDisplayMode('default', 'SinglePage', 'UseNone');
@@ -80,7 +80,6 @@ global $pdf;
 
 function layoutTag($jobdata,$jobstepdata,$pointdata,$xoffset, $yoffset, $lid) {
 global $pdf,$tagcnt,$tagtotal;
-global $lang_one,$lang_two;
 
 	// get headings from language file
 	$TAG_DANGER_IMAGE=$GLOBALS['_GW_TAG_DANGER_IMAGE'][$lid];
@@ -94,40 +93,39 @@ global $lang_one,$lang_two;
 	$TAG_SUPERVISOR=$GLOBALS['_GW_TAG_SUPERVISOR'][$lid];
 	$TAG_END_DATE=$GLOBALS['_GW_TAG_END_DATE'][$lid];
 	$TAG_PLACED_BY=$GLOBALS['_GW_TAG_PLACED_BY'][$lid];
+	$TAG_PRINTED_DATE=$GLOBALS['_GW_TAG_PRINTED_DATE'][$lid];
+	$TAG_DATE_FORMAT=$GLOBALS['_GW_TAG_DATE_FORMAT'][$lid];
 
-	$pdf->Image($TAG_DANGER_IMAGE, 0.1+$xoffset, 0.7+$yoffset, 2.8, 1.0, 'png', '', 'N', true);
 
-	$pdf->SetXY(0.2+$xoffset, 1.75+$yoffset );
-	$pdf->SetFont('', 'B', 26, '', true);
-	$pdf->Cell( 2.6, 0.5, $TAG_DO_NOT_OPERATE, 0, 1, 'C');
+	$pdf->Image($TAG_DANGER_IMAGE, 0.1+$xoffset, 1.0+$yoffset, 2.40, 0.84, 'png', '', 'N', true);
 
-	$pdf->SetXY(0.2+$xoffset, 2.2+$yoffset );
-	$pdf->SetFont('', 'B', 16, '', true);
-	$pdf->Cell( 2.6, 0.3, $TAG_LOCKED_OUT, 0, 1, 'C');
+	$pdf->SetXY(0.1+$xoffset, 1.85+$yoffset );
+	$pdf->SetFont('', 'B', 22, '', true);
+	$pdf->Cell( 2.4, 0.5, $TAG_DO_NOT_OPERATE, 0, 1, 'C');
+
+	$pdf->SetXY(0.1+$xoffset, 2.3+$yoffset );
+	$pdf->SetFont('', 'B', 14, '', true);
+	$pdf->Cell( 2.4, 0.3, $TAG_LOCKED_OUT, 0, 1, 'C');
 
 	$pdf->SetFont('', '', 10, '', true);
-	$pdf->Line( 0.2+$xoffset, 2.6+$yoffset, 2.8+$xoffset, 2.6+$yoffset);
+	$pdf->Line( 0.1+$xoffset, 2.6+$yoffset, 2.5+$xoffset, 2.6+$yoffset);
 
 	$html  = '<b>'.$pointdata[$lid]['cpoint_name'].'</b><br><br>';
-	$html .= "<b>$TAG_DISCONNECT</b>   ".$pointdata[$lid]['disconnect_state'].'<br>';
-	$html .= '<font size="-2">'.$pointdata[$lid]['disconnect_instructions'].'</font><br>';
-	// Print text using writeHTMLCell()
-	$pdf->writeHTMLCell($w=2.6, $h=0, $x=0.1+$xoffset, $y=2.65+$yoffset, $html, $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
-
-
-	$html  = '<b>'.$TAG_JOB_NAME.'</b>  '.$jobdata['job_name'].'<br>';
+	$html .= '<b>'.$TAG_DISCONNECT.'</b>   '.$pointdata[$lid]['disconnect_state'].'<br><br>';
+	$html .= '<b>'.$TAG_JOB_NAME.'</b>  '.$jobdata['job_name'].'<br>';
 	$html .= '<b>'.$TAG_STEP_NAME.'</b>  '.$jobstepdata[$lid]['cplan_name'].'<br>';
 	$html .= '<b>'.$TAG_PLACE.'</b>  '.$jobstepdata[$lid]['place_name'].'<br>';
 	$html .= '<b>'.$TAG_WORKORDER.'</b>   '.$jobdata['job_workorder'].'<br>';
 	$html .= '<b>'.$TAG_SUPERVISOR.'</b>   '.$jobdata['job_supervisor'].'<br>';
 	$html .= '<b>'.$TAG_END_DATE.'</b>    '.$jobdata['job_enddate'].'<br>';
 	$html .= '<b>'.$TAG_PLACED_BY.'</b>   '.$jobstepdata[$lid]['assigned_name'].'<br>';
+	$html .= '<b>'.$TAG_PRINTED_DATE.'</b>  '.date($TAG_DATE_FORMAT);
 
-	// Print text using writeHTMLCell()
-	$pdf->writeHTMLCell($w=2.6, $h=0, $x=$xoffset, $y=4.8+$yoffset, $html, $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
+	$pdf->writeHTMLCell($w=2.4, $h=0, $x=0.1+$xoffset, $y=2.7+$yoffset, $html, $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
 
 	$html = "<font size=\"-2\">$tagcnt/$tagtotal</font>";
-	$pdf->writeHTMLCell($w=0, $h=0, 2.5+$xoffset, 6.0+$yoffset, $html, $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
+	$pdf->writeHTMLCell($w=0.4, $h=0, 2.0+$xoffset, 0.25+$yoffset, $html, $border=0, $ln=1, $fill=0, $reseth=true, $align='R', $autopadding=true);
+
 }
 
 function myEachPointFunc($jobdata,$jobstepdata,$pointdata) {

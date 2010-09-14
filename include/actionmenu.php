@@ -48,7 +48,7 @@ if(isset($currentpoint) && $currentpoint!=0) {
 		addAction("editpoint.php?ptid=$currentpoint",  _MD_GWLOTO_PRG_DSC_EDITPOINT);
 	}
 	if($show_select_action) {
-		if(isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT])) {
+		if(isset($places['alluserauth'][_GWLOTO_USERAUTH_CP_EDIT])) {
 			addAction("select.php?ptid=$currentpoint",  _MD_GWLOTO_PRG_DSC_SELPOINT);
 			$show_select_action=false;
 		}
@@ -74,8 +74,8 @@ if(isset($currentplan) && $currentplan!=0) {
 		addAction("editplan.php?cpid=$currentplan",  _MD_GWLOTO_PRG_DSC_EDITPLAN);
 	}
 	if($show_select_action) {
-	if(isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT]) || 
-	   isset($places['currentauth'][_GWLOTO_USERAUTH_JB_EDIT])) {
+	if(isset($places['alluserauth'][_GWLOTO_USERAUTH_CP_EDIT]) || 
+	   isset($places['alluserauth'][_GWLOTO_USERAUTH_JB_EDIT])) {
 			addAction("select.php?cpid=$currentplan",  _MD_GWLOTO_PRG_DSC_SELPLAN);
 			$show_select_action=false;
 		}
@@ -93,11 +93,14 @@ if(isset($currentplace) && $currentplace!=0) {
 	}
 	if(isset($places['currentauth'][_GWLOTO_USERAUTH_PL_EDIT])) {
 		addAction("newplace.php?pid=$currentplace",  _MD_GWLOTO_PRG_DSC_ADDPLACE);
+	}
+	if(isset($places['alluserauth'][_GWLOTO_USERAUTH_PL_EDIT])) {
 		if($show_select_action) {
 			addAction("select.php?pid=$currentplace",  _MD_GWLOTO_PRG_DSC_SELPLACE);
 			$show_select_action=false;
 		}
 	}
+
 	if(isset($places['currentauth'][_GWLOTO_USERAUTH_MD_EDIT]) || 
 	   isset($places['currentauth'][_GWLOTO_USERAUTH_MD_VIEW]) || 
 	   isset($places['currentauth'][_GWLOTO_USERAUTH_MD_TRANS])) {

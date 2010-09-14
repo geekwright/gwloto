@@ -64,15 +64,9 @@ if(isset($_POST['ptid'])) $currentpoint = intval($_POST['ptid']);
 else if(isset($_GET['ptid'])) $currentpoint = intval($_GET['ptid']);
 
 if(isset($currentpoint)) {
-	$sql='SELECT cplan_id FROM '.$xoopsDB->prefix('gwloto_cpoint');
-	$sql.=" WHERE cpoint_id = $currentpoint";
-	$result = $xoopsDB->query($sql);
-	if ($result) {
-		while($myrow=$xoopsDB->fetchArray($result)) {
-			$currentplan=$myrow['cplan_id'];
-		}
-	}
-	else {
+	$currentplan=getCplanFromPoint($currentpoint);
+	if(!$currentplan) {
+		unset($currentplan);
 		unset($currentpoint);
 	}
 }
@@ -115,15 +109,9 @@ if(isset($currentjob) && !isset($currentplan)) {
 }
 
 if(isset($currentplan)) {
-	$sql='SELECT place_id FROM '.$xoopsDB->prefix('gwloto_cplan');
-	$sql.=" WHERE cplan_id = $currentplan";
-	$result = $xoopsDB->query($sql);
-	if ($result) {
-		while($myrow=$xoopsDB->fetchArray($result)) {
-			$currentplace=$myrow['place_id'];
-		}
-	}
-	else {
+	$currentplace=getPlaceFromCplan($currentplan);
+	if(!$currentplace) {
+		unset($currentplace);
 		unset($currentplan);
 	}
 }
@@ -183,57 +171,18 @@ if(isset($currentplace) && $currentplace==0) unset($currentplace);
 if(isset($currentplace)) {
 	$startplace=$currentplace;
 	$places['currentauth']=array();
-	$killcnt=100; // just a safety net
-
-	while($startplace!=0) {
-
-		if(isset($sql)) unset($sql);
-		if(isset($result)) unset($result);
-		if(isset($myrow)) unset($myrow);
-
-		$sql='SELECT place_id, parent_id FROM '.$xoopsDB->prefix('gwloto_place');
-		$sql.=" WHERE place_id=$startplace";
-
-		$result = $xoopsDB->query($sql);
-		if ($result) {
-			while($myrow=$xoopsDB->fetchArray($result)) {
-// $places['currentauth']=addCurrentAuth($myuserid,$startplace,$places['currentauth']);
-				$places['chainup'][$myrow['place_id']]=$myrow['parent_id'];
-				$places['chaindown'][$myrow['parent_id']]=$myrow['place_id'];
-// $places['name'][$myrow['place_id']]=getPlaceName($myrow['place_id'], $language);
-				$startplace=$myrow['parent_id'];
-			}
-		}
-		--$killcnt;
-		if($killcnt<0) break;
-	}
+	$places['chainup']=array();
+	$places['chaindown']=array();
+	$places['alluserauth']=array();
+	buildPlaceChain($myuserid,$currentplace,$places['currentauth'],$places['chainup'],$places['chaindown'],$places['alluserauth']);
 
 	$places['name']=getMultiPlaceNames($places['chaindown'], $language);
-
-	$inclause='';
-	foreach($places['chaindown'] as $v) {
-		$i=intval($v);
-		if($inclause!='') $inclause.=',';
-		$inclause.="$i";
-	}
-	$sql='SELECT distinct(authority) FROM  ' . $xoopsDB->prefix('gwloto_user_auth');
-	$sql.=" WHERE uid=$myuserid AND place_id IN ($inclause) ";
-	$sql.=" ORDER BY authority ";
-
-	$result = $xoopsDB->query($sql);
-	if ($result) {
-		while($myrow=$xoopsDB->fetchArray($result)) {
-			$places['currentauth'][$myrow['authority']]=true;
-		}
-	}
-
 
 	if(count($places['currentauth'])==0) { // no authority found
 		// if this is a job, we will check deeper later, so don't leave
 		if(!isset($currentjob)) redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
 	}
 
-	$killcnt=100; // just a safety net
 	$cnt=0;
 	$startplace=0;
 	while(isset($places['chaindown'][$startplace])) {
@@ -241,8 +190,6 @@ if(isset($currentplace)) {
 		$places['crumbs'][$cnt]['id']=$startplace;
 		$places['crumbs'][$cnt]['name']=$places['name'][$startplace];
 		++$cnt;
-		--$killcnt;
-		if($killcnt<0) break;
 	}
 
 }

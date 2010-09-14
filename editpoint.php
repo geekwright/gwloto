@@ -385,6 +385,9 @@ ENDJSCODE;
 //$debug.='<pre>$_POST='.print_r($_POST,true).'</pre>';
 //$debug.='<pre>$places='.print_r($places,true).'</pre>';
 
+//$canedit=isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT]);
+//$media=getAttachedMedia('point', $currentpoint, $language, $canedit);
+
 setPageTitle(_MD_GWLOTO_TITLE_EDITPOINT);
 
 $cpoints=getControlPoints($currentplan, $language, 'seq_disconnect');
