@@ -145,7 +145,7 @@ $modversion['blocks'][1] = array(
   'description' => _MI_GWLOTO_ASSIGNED_BLOCK_DESC,
   'show_func' => 'b_gwloto_assigned_block_show',
   'edit_func' => 'b_gwloto_assigned_block_edit',
-  'options' => 'desc',
+  'options' => 'desc|10',
   'template' => 'gwloto_block.html');
 
 // Templates

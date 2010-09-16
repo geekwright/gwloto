@@ -39,7 +39,9 @@ function b_gwloto_assigned_block_show($options) {
 	$sql.=" AND job_step_status NOT IN ('complete','canceled')";
 	$sql.=" ORDER BY $orderby ";
 
-	$result = $xoopsDB->query($sql);
+	$limit=intval($options[1]);
+	if($limit<1) $limit=5;
+	$result = $xoopsDB->query($sql,$limit,0);
 		if ($result) {
 		while($myrow=$xoopsDB->fetchArray($result)) {
 			$jsid=$myrow['job_step_id'];
@@ -61,7 +63,8 @@ function b_gwloto_assigned_block_show($options) {
 
 function b_gwloto_assigned_block_edit($options) {
 	// access in block as $options[0];
-	$form = _MB_GWLOTO_ASSIGNED_BLOCK_OPTION.": <input type='text' value='".$options[0]."'id='options[0]' name='options[0]' />";
+	$form = _MB_GWLOTO_ASSIGNED_BLOCK_OPTION_1.": <input type='text' value='".$options[0]."'id='options[0]' name='options[0]' />";
+	$form.= '<br />'._MB_GWLOTO_ASSIGNED_BLOCK_OPTION_2.": <input type='text' value='".$options[1]."'id='options[1]' name='options[1]' />";
 
 	return $form;
 }
