@@ -241,7 +241,7 @@ else { // view only
 
 	$formtitle=_MD_GWLOTO_JOB_VIEW_FORM;
 
-	$form = new XoopsThemeForm($formtitle, 'form1', 'viewjob.php', 'GET', $token);
+	$form = new XoopsThemeForm($formtitle, 'form1', 'viewjob.php', 'POST', $token);
 
 	$caption = _MD_GWLOTO_JOB_NAME;
 	$form->addElement(new XoopsFormLabel($caption, htmlspecialchars($job_name, ENT_QUOTES), 'job_name'));
