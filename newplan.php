@@ -90,7 +90,7 @@ if($op=='add') {
 
 	if(!$dberr) {
 		commitTransaction();
-		$message = _MD_GWLOTO_NEWPLACE_ADD_OK;
+		$message = _MD_GWLOTO_NEWPLAN_ADD_OK;
 		redirect_header("editplan.php?cpid=$new_plan_id", 3, $message);
 	}
 	else {

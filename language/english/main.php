@@ -33,7 +33,7 @@ define('_MD_GWLOTO_TITLE_SORTPLUGINS','Reorder Plugins');
 define('_MD_GWLOTO_TITLE_EDITPLUGIN','Edit Plugin');
 
 define('_MD_GWLOTO_MSG_NO_ACCESS','You do not have any defined access. Please contact your supervisor.');
-define('_MD_GWLOTO_MSG_ANON_ACCESS','You are not currently signed in, and no access for annonymous users is defined.');
+define('_MD_GWLOTO_MSG_ANON_ACCESS','You are not currently signed in, and no access for anonymous users is defined.');
 define('_MD_GWLOTO_MSG_NO_AUTHORITY','You do not have the required authority to access the requested resources.');
 define('_MD_GWLOTO_MSG_BAD_PARMS','Invalid parameters for operation.');
 define('_MD_GWLOTO_MSG_BAD_TOKEN','Expired or invalid security token in request.');
@@ -239,7 +239,7 @@ define('_MD_GWLOTO_JOB_PRINT_NODEFS', 'No print plugins are installed. Notify th
 define('_MD_GWLOTO_USERAUTH_PL_ADMIN_DSC', 'Edit User Authorities');
 define('_MD_GWLOTO_USERAUTH_PL_AUDIT_DSC', 'View User Authorities');
 define('_MD_GWLOTO_USERAUTH_PL_EDIT_DSC',  'Add or Edit Places');
-define('_MD_GWLOTO_USERAUTH_PL_SUPER_DSC', 'Supevisor of Place');
+define('_MD_GWLOTO_USERAUTH_PL_SUPER_DSC', 'Supervisor of Place');
 
 define('_MD_GWLOTO_USERAUTH_CP_EDIT_DSC',  'Add or Edit Control Plans');
 define('_MD_GWLOTO_USERAUTH_CP_VIEW_DSC',  'View Control Plans');
@@ -389,7 +389,7 @@ define('_MD_GWLOTO_MEDIA_NOTFOUND', 'Media not found. ');
 
 define('_MD_GWLOTO_MEDIA_FILE_NOT_GIVEN', 'Either a media file or a link must be specified.');
 define('_MD_GWLOTO_MEDIA_FILE_UPLOAD_ERROR', 'Upload Failed - error code %1$d');
-define('_MD_GWLOTO_MEDIA_FILE_MOVE_ERROR', 'Upload Failed - Is upload path writeable?');
+define('_MD_GWLOTO_MEDIA_FILE_MOVE_ERROR', 'Upload Failed - Is upload path writable?');
 define('_MD_GWLOTO_MEDIA_ADD_OK', 'Media Added');
 define('_MD_GWLOTO_MEDIA_ADD_DB_ERROR', 'Could not add media.');
 define('_MD_GWLOTO_MEDIA_UPDATE_OK', 'Media Updated');
