@@ -314,8 +314,8 @@ function copyPlan($pid,$cpid,$uid) {
 		$new_plan_id = $xoopsDB->getInsertId();
 		$copyof=_MD_GWLOTO_COPY_NAME_PREFIX;
 		$sql ='INSERT INTO '.$xoopsDB->prefix('gwloto_cplan_detail');
-		$sql.=' (cplan, language_id, cplan_name, cplan_review, hazard_inventory, required_ppe, last_changed_by, last_changed_on) ';
-		$sql.=" SELECT $new_plan_id, language_id, CONCAT('$copyof',cplan_name), cplan_review, hazard_inventory, required_ppe, $uid, UNIX_TIMESTAMP() ";
+		$sql.=' (cplan, language_id, cplan_name, cplan_review, hazard_inventory, required_ppe, authorized_personnel, additional_requirements, last_changed_by, last_changed_on) ';
+		$sql.=" SELECT $new_plan_id, language_id, CONCAT('$copyof',cplan_name), cplan_review, hazard_inventory, required_ppe, authorized_personnel, additional_requirements, $uid, UNIX_TIMESTAMP() ";
 		$sql.=' FROM '.$xoopsDB->prefix('gwloto_cplan_detail');
 		$sql.=" WHERE cplan = $cpid ";
 
@@ -724,7 +724,7 @@ switch($op) {
 		}
 		if(deletePoint($currentpoint)) {
 			$message=_MD_GWLOTO_DELETE_SEL_OK;
-			redirect_header("viewplan.php?cpid=$currentplan", 3, $message);
+			redirect_header("editplan.php?cpid=$currentplan", 3, $message);
 		}
 		break;
 	case 'del_plan':
@@ -782,7 +782,7 @@ switch($op) {
 		if(movePoint($currentplan,$cb_ptid,$myuserid)) {
 			setClipboard($myuserid);
 			$message=_MD_GWLOTO_MOVE_SEL_OK;
-			redirect_header("viewplan.php?cpid=$currentplan", 3, $message);
+			redirect_header("editplan.php?cpid=$currentplan", 3, $message);
 		}
 		break;
 	case 'mv_plan':
@@ -804,7 +804,7 @@ switch($op) {
 		if(movePlan($currentplace,$cb_cpid,$myuserid)) {
 			setClipboard($myuserid);
 			$message=_MD_GWLOTO_MOVE_SEL_OK;
-			redirect_header("viewplan.php?cpid=$cb_cpid", 3, $message);
+			redirect_header("editplan.php?cpid=$cb_cpid", 3, $message);
 		}
 		break;
 	case 'mv_place':
