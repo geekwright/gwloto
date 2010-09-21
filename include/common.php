@@ -24,7 +24,7 @@ function setPageTitle($title,$headingonly=false) {
 global $xoopsTpl;
 	if(!$headingonly) {
 		@$xoopsTpl->assign('xoops_pagetitle', _MD_GWLOTO_TITLE_SHORT.$title); // html title
-		@$xoopsTpl->assign('icms_pagetitle', _MD_GWLOTO_TITLE_SHORT.$title);
+//		@$xoopsTpl->assign('icms_pagetitle', _MD_GWLOTO_TITLE_SHORT.$title);
 	}
 	$xoopsTpl->assign('title',$title);	// content heading
 }

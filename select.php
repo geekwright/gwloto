@@ -376,8 +376,8 @@ function copyPlan($pid,$cpid,$uid) {
 			$new_cpoint=$r['new_cpoint'];
 	
 			$sql ='INSERT INTO '.$xoopsDB->prefix('gwloto_cpoint_detail');
-			$sql.=' (cpoint, language_id, cpoint_name, disconnect_instructions, disconnect_state, reconnect_instructions, reconnect_state, inspection_instructions, last_changed_by, last_changed_on) ';
-			$sql.=" SELECT $new_cpoint, language_id, cpoint_name, disconnect_instructions, disconnect_state, reconnect_instructions, reconnect_state, inspection_instructions, $uid, UNIX_TIMESTAMP() ";
+			$sql.=' (cpoint, language_id, cpoint_name, disconnect_state, disconnect_instructions, reconnect_state, reconnect_instructions, inspection_state, inspection_instructions, last_changed_by, last_changed_on) ';
+			$sql.=" SELECT $new_cpoint, language_id, cpoint_name, disconnect_state, disconnect_instructions, reconnect_state, reconnect_instructions, inspection_state, inspection_instructions, $uid, UNIX_TIMESTAMP() ";
 			$sql.=' FROM '.$xoopsDB->prefix('gwloto_cpoint_detail');
 			$sql.=" WHERE cpoint = $cpoint_id ";
 
@@ -427,8 +427,8 @@ function copyPoint($cpid,$ptid,$uid) {
 		copyMediaAttach('point', $ptid, $new_point_id , $uid);
 
 		$sql ='INSERT INTO '.$xoopsDB->prefix('gwloto_cpoint_detail');
-		$sql.=' (cpoint, language_id, cpoint_name, disconnect_instructions, disconnect_state, reconnect_instructions, reconnect_state, inspection_instructions, last_changed_by, last_changed_on) ';
-		$sql.=" SELECT $new_point_id, language_id, cpoint_name, disconnect_instructions, disconnect_state, reconnect_instructions, reconnect_state, inspection_instructions, $uid, UNIX_TIMESTAMP() ";
+		$sql.=' (cpoint, language_id, cpoint_name, disconnect_instructions, disconnect_state, reconnect_instructions, reconnect_state, inspection_state, inspection_instructions, last_changed_by, last_changed_on) ';
+		$sql.=" SELECT $new_point_id, language_id, cpoint_name, disconnect_instructions, disconnect_state, reconnect_instructions, reconnect_state, inspection_state, inspection_instructions, $uid, UNIX_TIMESTAMP() ";
 		$sql.=' FROM '.$xoopsDB->prefix('gwloto_cpoint_detail');
 		$sql.=" WHERE cpoint = $ptid ";
 

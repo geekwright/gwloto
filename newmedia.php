@@ -34,6 +34,7 @@ $media_id=0;
 $media_class='';
 $media_name='';
 $media_description='';
+$media_link='';
 $media_link_mode=false;
 
 $op='display';
