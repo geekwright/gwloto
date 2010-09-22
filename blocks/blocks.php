@@ -15,10 +15,18 @@
 if (!defined('XOOPS_ROOT_PATH')){ die(); }
 
 function b_gwloto_assigned_block_show($options) {
-	global $xoopsDB,$xoopsUser;
+	global $xoopsDB,$xoopsUser,$xoopsConfig;
 	$jobs=array();
 
 	$ourdir=basename( dirname( dirname( __FILE__ ) ) ) ;
+	$modpath=XOOPS_ROOT_PATH . '/modules/' . $ourdir;
+
+	if ( file_exists( $modpath . '/language/' . $xoopsConfig['language'] . '/main.php' ) ) {
+		include_once $modpath . '/language/' . $xoopsConfig['language'] . '/main.php';
+	}elseif ( file_exists( $modpath . '/language/english/main.php' ) ) {
+		include_once $modpath . '/language/english/main.php';
+	}
+	include_once $modpath . '/include/jobstatus.php';
 
 	$output='';
 
@@ -30,7 +38,7 @@ function b_gwloto_assigned_block_show($options) {
 	$orderby = 'steps.last_changed_on';
 	if(strcasecmp($options[0],'desc')==0) $orderby = 'steps.last_changed_on desc';
 
-	$sql ='SELECT job_step_id, job_name, job_workorder, step_name, steps.last_changed_on ';
+	$sql ='SELECT job_step_id, job_name, job_workorder, job_description, step_name, job_step_status, steps.last_changed_on ';
 	$sql.='FROM '.$xoopsDB->prefix('gwloto_job');
 	$sql.=', '.$xoopsDB->prefix('gwloto_job_steps').' steps ';
 	$sql.=" WHERE assigned_uid = $myuserid ";
@@ -41,23 +49,18 @@ function b_gwloto_assigned_block_show($options) {
 
 	$limit=intval($options[1]);
 	if($limit<1) $limit=5;
+	$block=null;
+
 	$result = $xoopsDB->query($sql,$limit,0);
 		if ($result) {
 		while($myrow=$xoopsDB->fetchArray($result)) {
 			$jsid=$myrow['job_step_id'];
-			$jn=$myrow['job_name'];
-			$sn=$myrow['step_name'];
-			$wo=$myrow['job_workorder'];
-			$link=XOOPS_URL."/modules/$ourdir/viewstep.php?jsid=$jsid";
-			$txt=$jn;
-			if($sn!='') $txt.=' - '.$sn;
-			elseif($wo!='') $txt.=' - '.$wo;
-			$output.='<li><a href="'.$link.'">'.$txt.'</a></li>';
+			$block[$jsid]=$myrow;
+
+			$block[$jsid]['link']=XOOPS_URL."/modules/$ourdir/viewstep.php?jsid=$jsid";
+			$block[$jsid]['status']=$stepstatus[$myrow['job_step_status']];
 		}
 	}
-
-	$block=null;
-	if($output!='') $block['output']='<ul>'.$output.'</ul>';
 	return $block;
 }
 

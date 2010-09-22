@@ -32,18 +32,18 @@ $stepstatus['disconnected']=_MD_GWLOTO_JOBSTEP_STATUS_DISC;
 $stepseqop['disconnecting']=$i;
 $stepseqop['disconnected']=$i;
 
-if($xoopsModuleConfig['show_inspect']) {
+$stepstatus['inspecting']=_MD_GWLOTO_JOBSTEP_STATUS_WIP_INSP;
+$stepstatus['inspected']=_MD_GWLOTO_JOBSTEP_STATUS_INSP;
+if(isset($xoopsModuleConfig['show_inspect']) && $xoopsModuleConfig['show_inspect']) {
 	++$i;
-	$stepstatus['inspecting']=_MD_GWLOTO_JOBSTEP_STATUS_WIP_INSP;
-	$stepstatus['inspected']=_MD_GWLOTO_JOBSTEP_STATUS_INSP;
 	$stepseqop['inspecting']=$i;
 	$stepseqop['inspected']=$i;
 }
 
-if($xoopsModuleConfig['show_reconnect']) {
+$stepstatus['reconnecting']=_MD_GWLOTO_JOBSTEP_STATUS_WIP_RECON;
+$stepstatus['reconnected']=_MD_GWLOTO_JOBSTEP_STATUS_RECON;
+if(isset($xoopsModuleConfig['show_reconnect']) && $xoopsModuleConfig['show_reconnect']) {
 	++$i;
-	$stepstatus['reconnecting']=_MD_GWLOTO_JOBSTEP_STATUS_WIP_RECON;
-	$stepstatus['reconnected']=_MD_GWLOTO_JOBSTEP_STATUS_RECON;
 	$stepseqop['reconnecting']=$i;
 	$stepseqop['reconnected']=$i;
 }
