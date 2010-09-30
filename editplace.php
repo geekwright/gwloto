@@ -241,7 +241,7 @@ ENDJSCODE;
 
 
 	//$form->display();
-	$body.=$form->render();
+	$body=$form->render();
 
 $canedit=isset($places['currentauth'][_GWLOTO_USERAUTH_PL_EDIT]);
 $media=getAttachedMedia('place', $currentplace, $language, $canedit);

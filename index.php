@@ -38,7 +38,7 @@ isset($places['currentauth'][_GWLOTO_USERAUTH_CP_TRANS]) ) {
 }
 
 buildPlaceSummary();
-getAttachedMedia('place', $currentplace, $language, false);
+if (isset($currentplace)) getAttachedMedia('place', $currentplace, $language, false);
 
 $jobs=getAvailableJobs($myuserid);
 
