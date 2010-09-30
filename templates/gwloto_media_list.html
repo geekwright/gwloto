@@ -33,7 +33,7 @@
 <{if isset($attach_type) }>
 <tr><td>
 <{if is_array($media) && count($media) > 0 }>
-<input type="submit" name="media_detach_button" value="<{$smarty.const._MD_GWLOTO_MEDIA_DETACH_BUTTON}>" />
+<input type="submit" name="media_detach_button" value="<{$smarty.const._MD_GWLOTO_MEDIA_DETACH_BUTTON}>" onClick="return confirm('<{$smarty.const._MD_GWLOTO_MEDIA_DETACH_CONFIRM}>')" />
 <{/if}>
 &nbsp;</td>
 <td>&nbsp;</td><td>&nbsp;</td>
