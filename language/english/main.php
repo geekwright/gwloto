@@ -378,6 +378,7 @@ define('_MD_GWLOTO_MEDIA_ATTACH_OK', 'Media Attached.');
 define('_MD_GWLOTO_MEDIA_ATTACH_DB_ERROR', 'Could not attach media.');
 define('_MD_GWLOTO_MEDIA_DETACH_OK', 'Media detached.');
 define('_MD_GWLOTO_MEDIA_DETACH_DB_ERROR', 'Could not detach media.');
+define('_MD_GWLOTO_MEDIA_DETACH_CONFIRM', 'Are you sure you want to detach this?');
 
 define('_MD_GWLOTO_MEDIA_FILE_NAME', 'Current File / Link');
 define('_MD_GWLOTO_MEDIA_UPLOAD_BY', 'Uploaded By');
