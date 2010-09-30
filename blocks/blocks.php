@@ -52,7 +52,7 @@ function b_gwloto_assigned_block_show($options) {
 	$block=null;
 
 	$result = $xoopsDB->query($sql,$limit,0);
-		if ($result) {
+	if ($result) {
 		while($myrow=$xoopsDB->fetchArray($result)) {
 			$jsid=$myrow['job_step_id'];
 			$block[$jsid]=$myrow;

@@ -9,7 +9,7 @@
 <{if is_array($block) && count($block) > 0 }>
 <ul>
 <{foreach key=jsid item=jobstep from=$block }>
-<li><a href="<{$jobstep.link}>"><{$jobstep.job_name}> - <{$jobstep.step_name}> - <{$jobstep.status}></a></li>
+<li><a href="<{$jobstep.link}>" title="<{$jobstep.job_description}>"><{$jobstep.job_name}> - <{$jobstep.step_name}> - <{$jobstep.status}>  </a></li>
 <{/foreach}>
 </ul>
 <{/if}>
