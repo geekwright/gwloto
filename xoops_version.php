@@ -189,4 +189,7 @@ $modversion['templates'][$i]['description'] = 'Print Job';
 ++$i;
 $modversion['templates'][$i]['file'] = 'gwloto_editmedia.html';
 $modversion['templates'][$i]['description'] = 'Media Center';
+++$i;
+$modversion['templates'][$i]['file'] = 'gwloto_listjobs.html';
+$modversion['templates'][$i]['description'] = 'List Jobs';
 ?>

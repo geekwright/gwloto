@@ -11,6 +11,7 @@ define('_MD_GWLOTO_TITLE_NEWJOB',   'Start New Energy Control Job');
 define('_MD_GWLOTO_TITLE_PRINTJOB', 'Print Energy Control Job Documents');
 define('_MD_GWLOTO_TITLE_VIEWJOB',  'Energy Control Job Overview');
 define('_MD_GWLOTO_TITLE_VIEWSTEP', 'Energy Control Job Step Detail');
+define('_MD_GWLOTO_TITLE_LISTJOBS', 'Search Energy Control Jobs');
 
 define('_MD_GWLOTO_TITLE_EDITPLACE','Edit Places');
 define('_MD_GWLOTO_TITLE_NEWPLACE', 'Add a New Place');
@@ -187,6 +188,11 @@ define('_MD_GWLOTO_JOBSTEP_EDIT_DB_ERROR', 'Could not save job step. ');
 define('_MD_GWLOTO_JOBSTEP_DUPLICATE_PLAN', 'Selected control plan is already part of job.');
 
 define('_MD_GWLOTO_JOB_NOTFOUND', 'Job not found. ');
+define('_MD_GWLOTO_JOB_NO_JOBS', 'No jobs found.');
+define('_MD_GWLOTO_JOB_STATUS_SELECT', 'Choose Job Status');
+define('_MD_GWLOTO_JOB_STATUS_ALL', 'All');
+define('_MD_GWLOTO_JOB_SEARCH_BUTTON', 'Search');
+define('_MD_GWLOTO_JOB_SEARCH_CRITERIA', 'Search Criteria:');
 
 define('_MD_GWLOTO_JOB_RPT_TITLE', 'Available Jobs');
 define('_MD_GWLOTO_JOB_NAME', 'Job Name');
@@ -286,6 +292,7 @@ define('_MD_GWLOTO_PRG_DSC_SELPLAN', 'Select Control Plan');
 define('_MD_GWLOTO_PRG_DSC_SELPOINT', 'Select Control Point');
 define('_MD_GWLOTO_PRG_DSC_SELMEDIA', 'Select Media');
 define('_MD_GWLOTO_PRG_DSC_NEWJOB', 'New Job with this Plan');
+define('_MD_GWLOTO_PRG_DSC_LISTJOBS', 'Search Jobs');
 define('_MD_GWLOTO_PRG_DSC_MEDIA', 'Media Center');
 
 define('_MD_GWLOTO_CHOOSE_PLACE', 'Choose Location');

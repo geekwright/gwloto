@@ -74,10 +74,10 @@ if(isset($currentplan) && $currentplan!=0) {
 		addAction("editplan.php?cpid=$currentplan",  _MD_GWLOTO_PRG_DSC_EDITPLAN);
 	}
 	if($show_select_action) {
-	if(isset($places['alluserauth'][_GWLOTO_USERAUTH_CP_EDIT]) || 
-	   isset($places['alluserauth'][_GWLOTO_USERAUTH_JB_EDIT])) {
-			addAction("select.php?cpid=$currentplan",  _MD_GWLOTO_PRG_DSC_SELPLAN);
-			$show_select_action=false;
+		if(isset($places['alluserauth'][_GWLOTO_USERAUTH_CP_EDIT]) || 
+		   isset($places['alluserauth'][_GWLOTO_USERAUTH_JB_EDIT])) {
+				addAction("select.php?cpid=$currentplan",  _MD_GWLOTO_PRG_DSC_SELPLAN);
+				$show_select_action=false;
 		}
 	}
 }
@@ -100,7 +100,19 @@ if(isset($currentplace) && $currentplace!=0) {
 			$show_select_action=false;
 		}
 	}
+}
 
+// job list
+if(isset($places['alluserauth'][_GWLOTO_USERAUTH_JB_VIEW]) || 
+   isset($places['alluserauth'][_GWLOTO_USERAUTH_JB_EDIT])) {
+	if(isset($currentplace))
+		addAction("listjobs.php?pid=$currentplace",  _MD_GWLOTO_PRG_DSC_LISTJOBS);
+	else
+		addAction("listjobs.php",  _MD_GWLOTO_PRG_DSC_LISTJOBS);
+}
+
+// more things to do with a place
+if(isset($currentplace) && $currentplace!=0) {
 	if(isset($places['currentauth'][_GWLOTO_USERAUTH_MD_EDIT]) || 
 	   isset($places['currentauth'][_GWLOTO_USERAUTH_MD_VIEW]) || 
 	   isset($places['currentauth'][_GWLOTO_USERAUTH_MD_TRANS])) {

@@ -36,6 +36,7 @@ function cleanMenuAction($redir) {
 	,'viewjob.php' => 1
 	,'newjob.php' => 1
 	,'printjob.php' => 1
+	,'listjobs.php' => 1
 
 	,'viewstep.php' => 1
 

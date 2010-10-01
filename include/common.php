@@ -482,7 +482,7 @@ function getUsersByAuth($authority,$place_array,$job_id) {
 	return $uids;
 }
 
-function getAvailableJobs($uid) {
+function getAvailableJobs($uid,$limit=20,$start=0) {
 	global $xoopsDB,$jobstatus;
 	$jobs=array();
 
@@ -496,7 +496,7 @@ function getAvailableJobs($uid) {
 	$sql.=' AND (authority='._GWLOTO_USERAUTH_JB_EDIT;
 	$sql.=' OR authority='._GWLOTO_USERAUTH_JB_VIEW.') )';
 
-	$result = $xoopsDB->query($sql);
+	$result = $xoopsDB->query($sql,$limit,$start);
 	if ($result) {
 		while($myrow=$xoopsDB->fetchArray($result)) {
 			$i=$myrow['job_id'];

@@ -55,7 +55,12 @@ function b_gwloto_assigned_block_show($options) {
 	if ($result) {
 		while($myrow=$xoopsDB->fetchArray($result)) {
 			$jsid=$myrow['job_step_id'];
-			$block[$jsid]=$myrow;
+			$block[$jsid]['job_step_id']=$jsid;
+
+			$block[$jsid]['job_name']=htmlspecialchars($myrow['job_name'], ENT_QUOTES);
+			$block[$jsid]['job_workorder']=htmlspecialchars($myrow['job_workorder'], ENT_QUOTES);
+			$block[$jsid]['step_name']=htmlspecialchars($myrow['step_name'], ENT_QUOTES);
+			$block[$jsid]['job_description']=htmlspecialchars($myrow['job_description'], ENT_QUOTES);
 
 			$block[$jsid]['link']=XOOPS_URL."/modules/$ourdir/viewstep.php?jsid=$jsid";
 			$block[$jsid]['status']=$stepstatus[$myrow['job_step_status']];
