@@ -275,7 +275,7 @@ define('_MD_GWLOTO_SORTPOINT_SEQ_INSPECT', 'Inspection');
 define('_MD_GWLOTO_SORTPOINT_SEQ_SHOW', 'Re-Show');
 define('_MD_GWLOTO_SORTPOINT_EMPTY', 'Nothing to Sort');
 
-define('_MD_GWLOTO_SETHOME_OK', 'Set Home Place');
+define('_MD_GWLOTO_SETHOME_OK', 'Home place is set.');
 // program link descriptions
 define('_MD_GWLOTO_PRG_DSC_EDITAUTHS', 'User Authorities');
 define('_MD_GWLOTO_PRG_DSC_EDITPLACE', 'Edit this Place');
