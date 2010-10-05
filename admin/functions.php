@@ -13,6 +13,15 @@
 */
 
 if (!defined("XOOPS_ROOT_PATH")) die("Root path not defined");
+function loadmodinfo($langdir)
+{
+global $xoopsModule;
+	if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$xoopsModule->getVar('dirname').'/language/'.$langdir.'/modinfo.php')) {
+        include_once XOOPS_ROOT_PATH.'/modules/'.$xoopsModule->getVar('dirname').'/language/'.$langdir.'/modinfo.php';
+		return true;
+    }
+	return false;
+}
 function adminmenu($currentoption=0, $breadcrumb = "")
 {
     global $xoopsModule, $xoopsConfig;
@@ -21,13 +30,14 @@ function adminmenu($currentoption=0, $breadcrumb = "")
     if($currentoption>=0) {
     $tblColors[$currentoption]='id=\'current\'';;
 	}
-    if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$xoopsModule->getVar('dirname').'/language/'.$xoopsConfig['language'].'/modinfo.php')) {
-        include_once '../language/'.$xoopsConfig['language'].'/modinfo.php';
-    }
-    else {
-        include_once '../language/english/modinfo.php';
-    }
-    
+	if(isset($_SESSION['UserLanguage'])) {
+		if(loadmodinfo($_SESSION['UserLanguage'])==false) {
+			if(loadmodinfo($xoopsConfig['language'])==false) {
+				loadmodinfo('english');
+			}
+		}
+	}
+
     /* Nice buttons styles */
     $return = "
     	<style type='text/css'>

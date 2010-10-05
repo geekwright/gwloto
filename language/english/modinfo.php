@@ -26,6 +26,9 @@ define('_MI_GWLOTO_AD_PLACE_LISTNAME', 'Defined Top Level Places');
 define('_MI_GWLOTO_AD_PLACE_LISTEMPTY', 'No places defined');
 define('_MI_GWLOTO_AD_PLACE_ADD_OK', 'Place added');
 define('_MI_GWLOTO_AD_PLACE_ADD_ERR', 'Could not add place');
+define('_MI_GWLOTO_AD_PLACE_ADD_ADMIN', 'Add Admin');
+define('_MI_GWLOTO_AD_PLACE_ADD_ADMIN_OK', 'Admin added');
+define('_MI_GWLOTO_AD_PLACE_ADD_ADMIN_ERR', 'Could not add admin');
 
 // Admin Plugins
 define('_MI_GWLOTO_AD_PLUGINS_FORMNAME', 'Available Plugins');

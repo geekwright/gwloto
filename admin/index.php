@@ -13,9 +13,9 @@
 */
 
 include ('../../../include/cp_header.php');
+xoops_cp_header();
 include_once "functions.php";
 include_once "../include/dbcommon.php";
-xoops_cp_header();
 adminmenu(1);
 
 // build todo list

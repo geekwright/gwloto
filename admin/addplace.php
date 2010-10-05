@@ -108,8 +108,9 @@ echo '</td></tr>';
 echo "</table>";
 
 echo "<table width='100%' border='0' cellspacing='1' class='outer'>";
-echo '<tr><th colspan="2" align="center">'._MI_GWLOTO_AD_PLACE_LISTNAME.'</th></tr>';
-echo "<tr><th>"._MI_GWLOTO_AD_PLACE_ID."</th><th>"._MI_GWLOTO_AD_PLACE_NAME."</th></tr>";
+echo '<tr><th colspan="3" align="center">'._MI_GWLOTO_AD_PLACE_LISTNAME.'</th></tr>';
+echo '<tr><th>'._MI_GWLOTO_AD_PLACE_ID."</th><th>"._MI_GWLOTO_AD_PLACE_NAME.'</th>';
+echo '<th>'._MI_GWLOTO_AD_TODO_ACTION.'</th></tr>';
 
 $sql="SELECT place_id, place_name FROM ".$xoopsDB->prefix('gwloto_place').' ,' . $xoopsDB->prefix('gwloto_place_detail');
 $sql.=" WHERE place = place_id and parent_id=0 and language_id=0";
@@ -124,10 +125,15 @@ if ($result) {
 	while($myrow=$xoopsDB->fetchArray($result)) {
 		++$cnt;
 		echo '<tr cellspacing="2" cellpadding="2" '.$tclass.'>';
-		echo '<td>'.$myrow['place_id'].'</td><td>'.$myrow['place_name'].'</td></tr>';
+		echo '<td>'.$myrow['place_id'].'</td><td>'.$myrow['place_name'].'</td>';
+		$form='<form name="addadmin" action="addadmin.php" method="post">';
+		$form.='<input type="hidden" name="pid" value="'.$myrow['place_id'].'" />';
+		$form.='<input type="submit" value="'._MI_GWLOTO_AD_PLACE_ADD_ADMIN.'" />';
+		$form.='</form>';
+		echo '<td>'.$form.'</td></tr>';
 	}
 }
-if($cnt==0) echo '<tr><td colspan="2" align="center">'._MI_GWLOTO_AD_PLACE_LISTEMPTY.'</td></tr>';
+if($cnt==0) echo '<tr><td colspan="3" align="center">'._MI_GWLOTO_AD_PLACE_LISTEMPTY.'</td></tr>';
 echo "</table>";
 
 xoops_cp_footer();
