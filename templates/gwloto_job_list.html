@@ -13,7 +13,7 @@
 </tr>
 <{foreach key=jid item=job from=$jobs }>
 <tr class="<{cycle values="odd,even"}>">
-<td><a href="<{$joblisturl}>?jid=<{$jid}>"><{$job.job_name}></a></td>
+<td><a href="<{$joblisturl}>?jid=<{$jid}>" title="<{$job.job_description|truncate:250:'...':false}>"><{$job.job_name}></a></td>
 <td><{$job.display_job_status}></td>
 <td><{$job.job_workorder}></td>
 <td><{$job.job_startdate}></td>

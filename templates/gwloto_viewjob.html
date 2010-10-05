@@ -15,7 +15,7 @@
 </tr>
 <{foreach key=jid item=step from=$steps }>
 <tr class="<{cycle values="odd,even"}>">
-<td><a href="viewstep.php?jid=<{$step.job}>&cpid=<{$step.cplan}>"><{$step.cplan_name}></a></td>
+<td><a href="viewstep.php?jsid=<{$step.job_step_id}>"><{$step.cplan_name}></a></td>
 <td><{$step.step_name}></td>
 <td><{$step.display_job_step_status}></td>
 <td><{$step.assigned_name}></td>

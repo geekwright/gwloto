@@ -24,7 +24,7 @@
 <{if isset($attach_type) }>
 <td><input type="radio" name="maid" value="<{$mitem.media_attach_id}>" /></td>
 <{/if}>
-<td><a href="dlmedia.php?mid=<{$mitem.media_id}>&lid=<{$language}>" target="_blank"><{$mitem.media_name}></a></td>
+<td><a href="dlmedia.php?mid=<{$mitem.media_id}>&lid=<{$language}>"  title="<{$mitem.media_description|truncate:250:'...':false}>" target="_blank"><{$mitem.media_name}></a></td>
 <td><{$mitem.display_required}></td>
 <td><{$mitem.display_media_class}></td>
 </tr>
