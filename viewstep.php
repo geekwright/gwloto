@@ -224,7 +224,7 @@ if($user_can_edit) {
 
 	$caption = _MD_GWLOTO_JOB_NAME;
 	$job_name=htmlspecialchars(getJobName($currentjob,$language), ENT_QUOTES);
-	$form->addElement(new XoopsFormLabel($caption,'<a href="viewjob?jid='.$currentjob.'">'.$job_name.'</a>', 'job_name'));
+	$form->addElement(new XoopsFormLabel($caption,'<a href="viewjob.php?jid='.$currentjob.'">'.$job_name.'</a>', 'job_name'));
 
 	$caption = _MD_GWLOTO_JOBSTEP_PLAN;
 	$cplan_name=htmlspecialchars(getCplanName($currentplan, $language), ENT_QUOTES);
