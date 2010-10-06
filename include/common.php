@@ -693,7 +693,7 @@ $media=array();
 	$sql.=' AND media = ma.media_id AND m.media_id=ma.media_id ';
 	$sql.=" AND (language_id=$language OR language_id=0) ";
 
-	$sql.="ORDER BY media_order, ma.media_id, language_id ";
+	$sql.="ORDER BY required desc, media_order, ma.media_id, language_id ";
 
 	$result = $xoopsDB->query($sql);
 
