@@ -134,9 +134,16 @@ if($userinfo) {
 	$language=$userinfo['language_id'];
 	$places['userinfo']=$userinfo;
 }
-if(isset($_SESSION['UserLanguage'])) {
+
+if(isset($system_language)) unset($system_langage);
+
+if(isset($xoopsConfig['language']))  $system_language=$xoopsConfig['language'];
+if(isset($icmsConfig['language']))   $system_language=$icmsConfig['language'];
+if(isset($_SESSION['UserLanguage'])) $system_language=$_SESSION['UserLanguage'];
+
+if(isset($system_language)) {
 	$langfolders=getLanguageByFolder();
-	if(isset($langfolders[$_SESSION['UserLanguage']])) $language=$langfolders[$_SESSION['UserLanguage']];
+	if(isset($langfolders[$system_language])) $language=$langfolders[$system_language];
 }
 
 if(isset($_POST['lid'])) $language = intval($_POST['lid']);
