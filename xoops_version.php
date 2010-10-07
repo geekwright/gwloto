@@ -15,7 +15,7 @@
 if (!defined("XOOPS_ROOT_PATH")) die("Root path not defined");
 
 $modversion['name'] = _MI_GWLOTO_NAME;
-$modversion['version'] = '0.9';
+$modversion['version'] = '1.0';
 $modversion['description'] = _MI_GWLOTO_DESC;
 $modversion['credits'] = "geekwight, LLC";
 $modversion['help'] = "";
