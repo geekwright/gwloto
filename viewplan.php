@@ -164,13 +164,19 @@ if(isset($places['currentauth'][_GWLOTO_USERAUTH_CP_TRANS])) {
 
 if(count($seqoptions)>1) {
 	$caption = _MD_GWLOTO_VIEWPLAN_SEQ;
-	$radio=new XoopsFormRadio($caption, 'seq', $currentseq, '');
+
+	$seqtray=new XoopsFormElementTray($caption, '');
+
+	$radio=new XoopsFormRadio('', 'seq', $currentseq, '');
 
 	foreach($seqoptions as $i => $v) {
 		$radio->addOption($i, $v['label']);
 	}
-	$radio->setExtra('onChange="document.formview.submit()" ');
-	$form->addElement($radio);
+	$radio->setExtra('onClick="document.formview.submit()" ');
+	$seqtray->addElement($radio);
+	$subbutton='<noscript>&nbsp;<input type="submit" value="'._MD_GWLOTO_NOSCRIPT_GO.'" /></noscript>';
+	$seqtray->addElement(new XoopsFormLabel('', $subbutton),false);
+	$form->addElement($seqtray);
 
 }
 

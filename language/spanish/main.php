@@ -292,7 +292,7 @@ define('_MD_GWLOTO_PRG_DSC_SELPLACE', 'Seleccionar lugar');
 define('_MD_GWLOTO_PRG_DSC_SELPLAN', 'Seleccione el Plan de Control');
 define('_MD_GWLOTO_PRG_DSC_SELPOINT', 'Seleccione el punto de control');
 define('_MD_GWLOTO_PRG_DSC_SELMEDIA', 'Seleccione multimedia');
-define('_MD_GWLOTO_PRG_DSC_NEWJOB', 'New Job with this Plan');
+define('_MD_GWLOTO_PRG_DSC_NEWJOB', 'Nuevo trabajo con este Plan');
 define('_MD_GWLOTO_PRG_DSC_LISTJOBS', 'Búsqueda de trabajo');
 define('_MD_GWLOTO_PRG_DSC_MEDIA', 'Centro multimedia');
 
@@ -419,4 +419,7 @@ define('_MD_GWLOTO_MEDIACLASS_OTHER', 'Otros');
 define('_MD_GWLOTO_PLUGIN_ADMIN', 'Plugin de administración');
 define('_MD_GWLOTO_PLUGIN_NAME', 'Plugin Nombre');
 define('_MD_GWLOTO_PLUGIN_DESCRIPTION', 'Descripción');
+
+//new since 1.0
+define('_MD_GWLOTO_NOSCRIPT_GO','Ir'); // Navigation submit button
 ?>

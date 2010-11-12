@@ -418,4 +418,7 @@ define('_MD_GWLOTO_MEDIACLASS_OTHER', 'Other');
 define('_MD_GWLOTO_PLUGIN_ADMIN', 'Plugin Admin');
 define('_MD_GWLOTO_PLUGIN_NAME', 'Plugin Name');
 define('_MD_GWLOTO_PLUGIN_DESCRIPTION', 'Description');
+
+//new since 1.0
+define('_MD_GWLOTO_NOSCRIPT_GO','Go'); // Navigation submit button
 ?>
