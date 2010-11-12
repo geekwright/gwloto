@@ -360,7 +360,7 @@ if($op!='display') {
 			$zapus = array(' ', '/', '\\');
 			$filename = str_replace($zapus, '_', $_FILES[$filekey]['name']);
 
-			$filename=uniqid().'_'.$filename;
+			$filename=uniqid().'_'.str_replace('.','_',$filename);
 			$pathname=getMediaUploadPath();
 			$uploaded_stored_file=$pathname.$filename;
 			if (move_uploaded_file($_FILES[$filekey]['tmp_name'], $uploaded_stored_file)) {
