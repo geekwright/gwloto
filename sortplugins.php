@@ -130,7 +130,7 @@ if($op=='update') {
 
 $token=0;
 
-$caption = sprintf(_MD_GWLOTO_SORTPOINT_FORM);
+$caption = _MD_GWLOTO_TITLE_SORTPLUGINS;
 $form = new XoopsThemeForm($caption, 'form1', '', 'POST', $token);
 
 $caption = _MD_GWLOTO_SORTPOINT_ACTIONS;
