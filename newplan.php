@@ -95,7 +95,7 @@ if($op=='add') {
 	}
 	else {
 		rollbackTransaction();
-		$err_message = _MI_GWLOTO_AD_PLAN_ADD_ERR .' '.$dbmsg;
+		$err_message = _MD_GWLOTO_NEWPLAN_DB_ERROR .' '.$dbmsg;
 	}
 }
 
