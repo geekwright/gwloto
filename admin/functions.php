@@ -42,38 +42,38 @@ function adminmenu($currentoption=0, $breadcrumb = "")
     $return = "
     	<style type='text/css'>
     	
-    	#buttontop { float:left; width:100%; background: #dae0d2; font-size:93%; line-height:normal; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin: 0; }
+    	#admintop { float:left; width:100%; background: #dae0d2; font-size:93%; line-height:normal; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin: 0; }
     			
 		#admintabs {
-        	FONT-SIZE: 93%; BACKGROUND: url(../images/bg.gif) #dae0d2 repeat-x 50% bottom; FLOAT: left; WIDTH: 100%; LINE-HEIGHT: normal; border-left: 1px solid black; border-right: 1px solid black;
+        	font-size: 93%; background: url(../images/bg.gif) #dae0d2 repeat-x 50% bottom; float: left; width: 100%; line-height: normal; border-left: 1px solid black; border-right: 1px solid black; 
         }
         #admintabs ul {
-        	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 10px; LIST-STYLE-TYPE: none;
+        	padding-right: 10px; padding-left: 10px; padding-bottom: 0px; margin: 0px; padding-top: 10px; list-style-type: none;
         }
         #admintabs li {
-        	PADDING-RIGHT: 0px; PADDING-LEFT: 9px; BACKGROUND: url(../images/left.gif) no-repeat left top; FLOAT: left; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; list-style: none;
+        	padding-right: 0px; padding-left: 9px; background: url(../images/left.gif) no-repeat left top; float: left; padding-bottom: 0px; margin: 0px; padding-top: 0px; list-style: none;
         }
-        #admintabs A {
-        	PADDING-RIGHT: 15px; DISPLAY: block; PADDING-LEFT: 6px; FONT-WEIGHT: bold; BACKGROUND: url(../images/right.gif) no-repeat right top; FLOAT: left; PADDING-BOTTOM: 4px; COLOR: #765; PADDING-TOP: 5px; TEXT-DECORATION: none
+        #admintabs a {
+        	padding-right: 15px; display: block; padding-left: 6px; font-weight: bold; background: url(../images/right.gif) no-repeat right top; float: left; padding-bottom: 4px; color: #765; padding-top: 5px; text-decoration: none
         }
-        #admintabs A {
-        	FLOAT: left;
+        #admintabs a {
+        	float: left;
         }
-        #admintabs A:hover {
-        	COLOR: #333
+        #admintabs a:hover {
+        	color: #333;
         }
         #admintabs #current {
-        	BACKGROUND-IMAGE: url(../images/left_on.gif)
+        	background: url(../images/left_on.gif) no-repeat left top;
         }
-        #admintabs #current A {
-        	BACKGROUND-IMAGE: url(../images/right_on.gif); COLOR: #333; float:left;
+        #admintabs #current a {
+        	background: url(../images/right_on.gif) no-repeat right top; color: #333; float:left;
         }
 		</style>
     ";
     
     include XOOPS_ROOT_PATH."/modules/".$xoopsModule->getVar('dirname')."/admin/menu.php";
 
-    $return .= "<div id='buttontop'>";
+    $return .= "<div id='admintop'>";
     $return .= "<table style=\"width: 100%; padding: 0; \" cellspacing=\"0\"><tr>";
     $return .= "<td style='width: 60%; font-size: 10px; text-align: left; color: #2F5376; padding: 0 6px; line-height: 18px;'><a class='nobutton' href='" . XOOPS_URL . "/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=" . $xoopsModule->getVar('mid') . "'>" . _MI_GWLOTO_ADMENU_PREF . "</a> | <a href='" . XOOPS_URL . "/modules/" . $xoopsModule->getVar('dirname') . "/index.php'>" . _MI_GWLOTO_ADMENU_GOMOD . "</a></td>";
     $return .= "<td style='width: 40%; font-size: 10px; text-align: right; color: #2F5376; padding: 0 6px; line-height: 18px;'>&nbsp;" . $breadcrumb . "</td>";
