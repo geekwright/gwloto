@@ -1,10 +1,10 @@
 <?php
 /**
-* editauths.php - edit authorities for a user at a place
+* editgrpauths.php - edit authorities for a group at a place
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010-2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2011 geekwright, LLC. All rights reserved. 
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -37,9 +37,8 @@ if(!isset($places['currentauth'][_GWLOTO_USERAUTH_PL_ADMIN]) &&
 	redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
 }
 
-if(isset($_GET['uid'])) $auth_uid = intval($_GET['uid']);
-if(isset($_POST['auth_uid'])) $auth_uid = intval($_POST['auth_uid']);
-if(!isset($auth_uid)) $auth_uid=$myuserid;
+if(isset($_GET['gid'])) $auth_groupid = intval($_GET['gid']);
+if(isset($_POST['auth_groupid'])) $auth_groupid = intval($_POST['auth_groupid']);
 
 $op='display';
 if(isset($_POST['submit'])) {
@@ -63,8 +62,8 @@ if($op=='update') {
 	$dberr=false;
 	$dbmsg='';
 	startTransaction();
-	$sql ="DELETE FROM  ".$xoopsDB->prefix('gwloto_user_auth');
-	$sql.=" WHERE place_id = $currentplace AND uid=$auth_uid";
+	$sql ="DELETE FROM  ".$xoopsDB->prefix('gwloto_group_auth');
+	$sql.=" WHERE place_id = $currentplace AND groupid=$auth_groupid";
 	$result = $xoopsDB->queryF($sql);
 	if (!$result) {
 		$dberr=true;
@@ -72,12 +71,12 @@ if($op=='update') {
 	}
 
 	if(!$dberr) {
-		$uath=array();
-		if(isset($_POST['uauth'])) $uauth = $_POST['uauth'];
-		foreach ($uauth as $authority) {
-			$sql ="INSERT INTO ".$xoopsDB->prefix('gwloto_user_auth');
-			$sql.=" (uid, place_id, authority, last_changed_by, last_changed_on)";
-			$sql.=" VALUES ($auth_uid, $currentplace, $authority, $myuserid, UNIX_TIMESTAMP() )";
+		$gath=array();
+		if(isset($_POST['gauth'])) $gauth = $_POST['gauth'];
+		foreach ($gauth as $authority) {
+			$sql ="INSERT INTO ".$xoopsDB->prefix('gwloto_group_auth');
+			$sql.=" (groupid, place_id, authority, last_changed_by, last_changed_on)";
+			$sql.=" VALUES ($auth_groupid, $currentplace, $authority, $myuserid, UNIX_TIMESTAMP() )";
 			$result = $xoopsDB->queryF($sql);
 			if (!$result) {
 				$dberr=true;
@@ -99,8 +98,8 @@ if($op=='update') {
 
 $usersauths=array();
 
-	$sql='SELECT authority FROM '.$xoopsDB->prefix('gwloto_user_auth');
-	$sql.=" WHERE uid=$auth_uid AND place_id=$currentplace";
+	$sql='SELECT authority FROM '.$xoopsDB->prefix('gwloto_group_auth');
+	$sql.=" WHERE groupid=$auth_groupid AND place_id=$currentplace";
 
 	$result = $xoopsDB->query($sql);
 	$cnt=0;
@@ -113,12 +112,12 @@ $usersauths=array();
 
 	$token=true;
 
-	$form = new XoopsThemeForm(_MD_GWLOTO_USERAUTH_FORM, 'form1', 'editauths.php', 'POST', $token);
+	$form = new XoopsThemeForm(_MD_GWLOTO_GROUPAUTH_FORM, 'form1', 'editgrpauths.php', 'POST', $token);
 
-	// caption, name, include_annon, size (1 for dropdown), multiple
-	$form->addElement(new XoopsFormSelectUser(_MD_GWLOTO_USERAUTH_USER, 'auth_uid', true, $auth_uid, 1, false),true);
+	// caption, name, include_annon, value, size (1 for dropdown), multiple
+	$form->addElement(new XoopsFormSelectGroup(_MD_GWLOTO_GROUPAUTH_GROUP, 'auth_groupid', false, $auth_groupid, 1, false),true);
 
-	$form->addElement(new XoopsFormButton(_MD_GWLOTO_USERAUTH_DISPLAY, 'lookup', _MD_GWLOTO_USERAUTH_DISPLAY_BUTTON, 'submit'));
+	$form->addElement(new XoopsFormButton(_MD_GWLOTO_GROUPAUTH_DISPLAY, 'lookup', _MD_GWLOTO_USERAUTH_DISPLAY_BUTTON, 'submit'));
 
 	$form->addElement(new XoopsFormHidden('pid', $currentplace));
 
@@ -128,7 +127,7 @@ $usersauths=array();
 		foreach ($UserAuthList as $i => $v) {
 			if(isset($usersauths[$i])) $checked_values[$i]=$i;
 		}
-		$checkbox = new XoopsFormCheckBox($caption, 'uauth', $checked_values,'<br />');
+		$checkbox = new XoopsFormCheckBox($caption, 'gauth', $checked_values,'<br />');
 		foreach ($UserAuthList as $i => $v) {
 			$checkbox->addOption($i, $v);
 		}
@@ -146,20 +145,14 @@ $usersauths=array();
 $authbyplace=array();
 $cnt=0;
 foreach($places['name'] as $pid => $pname) {
-	$sql='SELECT authority, \'\' as authsource, uid as authid FROM  ' . $xoopsDB->prefix('gwloto_user_auth');
-	$sql.=" WHERE uid=$auth_uid AND place_id = $pid ";
 
-	$sql.=' UNION ';
-
-	$sql.=' SELECT authority, g.name as authsource, a.groupid as authid FROM ';
+	$sql=' SELECT authority, g.name as authsource, a.groupid as authid FROM ';
 	$sql.=$xoopsDB->prefix('gwloto_group_auth').' a ';
-	$sql.=', '.$xoopsDB->prefix('groups_users_link').' l ';
 	$sql.=', '.$xoopsDB->prefix('groups').' g ';
-	$sql.=" WHERE uid=$auth_uid AND place_id = $pid ";
-	$sql.=' AND a.groupid = l.groupid and g.groupid = l.groupid ';
+	$sql.=" WHERE a.groupid=$auth_groupid AND place_id = $pid ";
+	$sql.=' AND a.groupid = g.groupid ';
 
 	$sql.=' ORDER BY authority, authsource, authid ';
-
 
 	$result = $xoopsDB->query($sql);
 
@@ -187,15 +180,15 @@ foreach($places['name'] as $pid => $pname) {
 
 if(isset($body)) $xoopsTpl->assign('body', $body);
 
-$xoopsTpl->assign('auth_uid', $auth_uid);
+$xoopsTpl->assign('auth_uid', $auth_groupid);
 $xoopsTpl->assign('crumburl','');
-$xoopsTpl->assign('crumbextra','&uid='.$auth_uid);
+$xoopsTpl->assign('crumbextra','&gid='.$auth_groupid);
 $xoopsTpl->assign('crumbpcurl','');
-$xoopsTpl->assign('crumbpcextra',"<input type='hidden' name='uid' value='$auth_uid'>");
+$xoopsTpl->assign('crumbpcextra',"<input type='hidden' name='gid' value='$auth_groupid'>");
 
 if(isset($authbyplace)) $xoopsTpl->assign('report', $authbyplace);
 
-setPageTitle(_MD_GWLOTO_TITLE_EDITAUTHS);
+setPageTitle(_MD_GWLOTO_TITLE_EDITGRPAUTHS);
 
 
 if(isset($places['choose'])) $xoopsTpl->assign('choose',$places['choose']);

@@ -4,7 +4,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010-2011 geekwright, LLC. All rights reserved. 
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -23,6 +23,24 @@ include ('include/common.php');
 include ('include/placeenv.php');
 include ('include/actionmenu.php');
 include ('include/jobstatus.php');
+
+$local_js = <<<ENDJSCODE
+function html_entity_decode(str) {
+ try {
+  var tarea=document.createElement('textarea');
+  tarea.innerHTML = str;
+  return tarea.value;
+  var decodedStr = tarea.value;
+  document.removeElement(tarea);
+  return decodedStr;
+ }
+ catch(e) {
+	return str;
+ }
+}
+ENDJSCODE;
+
+$xoTheme->addScript( null, array( 'type' => 'text/javascript' ), $local_js );
 
 // leave if we don't have job edit authority
 if(!isset($places['currentauth'][_GWLOTO_USERAUTH_JB_EDIT])) {
@@ -154,7 +172,7 @@ if($op=='add') {
 	foreach($uid_choices as $i) {
 		$listboxsv->addOption($i, $i);
 	}
-	$listboxsv->setExtra('onChange="this.form.elements[\'job_supervisor\'].value = this.form.elements[\'pick_supervisor\'].value " ');
+	$listboxsv->setExtra('onChange="this.form.elements[\'job_supervisor\'].value = html_entity_decode(this.form.elements[\'pick_supervisor\'].value) " ');
 	$svtray->addElement($listboxsv);
 	$form->addElement($svtray);
 

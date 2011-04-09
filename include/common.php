@@ -4,7 +4,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010-2011 geekwright, LLC. All rights reserved. 
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -395,6 +395,12 @@ global $xoopsDB;
 	if(is_array($autharray)) {
 		$sql='SELECT place_id, authority FROM  ' . $xoopsDB->prefix('gwloto_user_auth');
 		$sql.=" WHERE uid=$uid ";
+
+	$sql.=' UNION SELECT place_id, authority ';
+	$sql.=' FROM '. $xoopsDB->prefix('gwloto_group_auth').' g ';
+	$sql.=', '. $xoopsDB->prefix('groups_users_link').' l ';
+	$sql.=" WHERE uid=$uid  and g.groupid = l.groupid ";
+
 		$sql.=" ORDER BY authority, place_id ";
 
 		$result = $xoopsDB->query($sql);
@@ -442,6 +448,11 @@ function getPlacesByUserAuth($uid,$authority,$language) {
 	$sql='SELECT distinct(place_id) as place_id FROM '.$xoopsDB->prefix('gwloto_user_auth');
 	$sql.=" WHERE uid=$uid AND authority=$authority ";
 
+	$sql.=' UNION distinct(place_id) as place_id ';
+	$sql.=' FROM '. $xoopsDB->prefix('gwloto_group_auth').' g ';
+	$sql.=', '. $xoopsDB->prefix('groups_users_link').' l ';
+	$sql.=" WHERE uid=$uid AND authority=$authority AND g.groupid = l.groupid ";
+
 	$result = $xoopsDB->query($sql);
 	if ($result) {
 		while($myrow=$xoopsDB->fetchArray($result)) {
@@ -471,6 +482,10 @@ function getUsersByAuth($authority,$place_array,$job_id) {
 
 	$sql='SELECT distinct uid as uid FROM '. $xoopsDB->prefix('gwloto_user_auth');
 	$sql.=" WHERE authority=$authority AND place_id in ($inclause)";
+	$sql.=' UNION SELECT distinct uid as uid ';
+	$sql.=' FROM '. $xoopsDB->prefix('gwloto_group_auth').' g ';
+	$sql.=', '. $xoopsDB->prefix('groups_users_link').' l ';
+	$sql.=" WHERE authority=$authority AND place_id in ($inclause) AND g.groupid = l.groupid ";
 	
 	$result = $xoopsDB->query($sql);
 	if ($result) {
@@ -492,6 +507,16 @@ function getAvailableJobs($uid,$limit=20,$start=0) {
 	$sql.=', '.$xoopsDB->prefix('gwloto_job_places');
 	$sql.=', '.$xoopsDB->prefix('gwloto_user_auth');
 	$sql.=" WHERE uid = $uid AND (job_status = 'planning' OR job_status='active')";
+	$sql.=' AND job = job_id AND place = place_id';
+	$sql.=' AND (authority='._GWLOTO_USERAUTH_JB_EDIT;
+	$sql.=' OR authority='._GWLOTO_USERAUTH_JB_VIEW.') ';
+
+	$sql.=' UNION SELECT job_id FROM '.$xoopsDB->prefix('gwloto_job');
+	$sql.=', '.$xoopsDB->prefix('gwloto_job_places');
+	$sql.=', '.$xoopsDB->prefix('gwloto_group_auth').' g ';
+	$sql.=', '.$xoopsDB->prefix('groups_users_link').' l ';
+	$sql.=" WHERE uid = $uid AND (job_status = 'planning' OR job_status='active')";
+	$sql.=' AND g.groupid = l.groupid ';
 	$sql.=' AND job = job_id AND place = place_id';
 	$sql.=' AND (authority='._GWLOTO_USERAUTH_JB_EDIT;
 	$sql.=' OR authority='._GWLOTO_USERAUTH_JB_VIEW.') )';
@@ -552,6 +577,23 @@ function checkJobAuthority($jid,$uid,$neededit=false) {
 	global $xoopsDB;
 
 	$jobauth=false;
+
+	$sql='SELECT count(*) as authcount FROM '.$xoopsDB->prefix('gwloto_job_places');
+	$sql.=', '.$xoopsDB->prefix('gwloto_group_auth').' g ';
+	$sql.=', '.$xoopsDB->prefix('groups_users_link').' l ';
+	$sql.=" WHERE uid = $uid AND job = $jid AND place = place_id";
+	$sql.=' AND g.groupid = l.groupid ';
+	$sql.=' AND (authority='._GWLOTO_USERAUTH_JB_EDIT;
+	if(!$neededit) $sql.=' OR authority='._GWLOTO_USERAUTH_JB_VIEW;
+	$sql.=') ';
+
+	$result = $xoopsDB->query($sql);
+	if ($result) {
+		if($myrow=$xoopsDB->fetchArray($result)) {
+			$jobauth=intval($myrow['authcount']);
+		}
+	}
+	if($jobauth) return $jobauth;
 
 	$sql='SELECT count(*) as authcount FROM '.$xoopsDB->prefix('gwloto_job_places');
 	$sql.=', '.$xoopsDB->prefix('gwloto_user_auth');

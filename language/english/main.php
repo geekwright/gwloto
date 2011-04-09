@@ -421,4 +421,12 @@ define('_MD_GWLOTO_PLUGIN_DESCRIPTION', 'Description');
 
 //new since 1.0
 define('_MD_GWLOTO_NOSCRIPT_GO','Go'); // Navigation submit button
+// group authority form
+define('_MD_GWLOTO_TITLE_EDITGRPAUTHS','Set Group Authorities');
+define('_MD_GWLOTO_GROUPAUTH_FORM', 'Set Group Authorities');
+define('_MD_GWLOTO_GROUPAUTH_GROUP', 'Select Group');
+define('_MD_GWLOTO_GROUPAUTH_DISPLAY', 'Show current authorities');
+define('_MD_GWLOTO_USERAUTH_BY_USER', 'Edit Users');
+define('_MD_GWLOTO_USERAUTH_BY_GROUP', 'Edit Groups');
+define('_MD_GWLOTO_USERAUTH_RPT_GROUP', 'Group');
 ?>

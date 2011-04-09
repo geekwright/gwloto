@@ -17,7 +17,7 @@ if (!defined("XOOPS_ROOT_PATH")) die("Root path not defined");
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010-2011 geekwright, LLC. All rights reserved. 
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -152,6 +152,10 @@ else if(isset($_GET['lid'])) $language = intval($_GET['lid']);
 if((!isset($currentplace) && !isset($defaultplace)) || (isset($currentplace) && $currentplace==0)) {
 	$sql='SELECT distinct(place_id) as place_id FROM '.$xoopsDB->prefix('gwloto_user_auth');
 	$sql.=" WHERE uid=$myuserid";
+	$sql.=' UNION SELECT distinct(place_id) as place_id ';
+	$sql.=' FROM '. $xoopsDB->prefix('gwloto_group_auth').' g ';
+	$sql.=', '. $xoopsDB->prefix('groups_users_link').' l ';
+	$sql.=" WHERE uid=$myuserid and g.groupid = l.groupid ";
 
 	$result = $xoopsDB->query($sql);
 	$cnt=0;

@@ -4,7 +4,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010-2011 geekwright, LLC. All rights reserved. 
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -15,13 +15,14 @@
 if (!defined("XOOPS_ROOT_PATH")) die("Root path not defined");
 
 $modversion['name'] = _MI_GWLOTO_NAME;
-$modversion['version'] = '1.0';
+$modversion['version'] = '1.1';
 $modversion['description'] = _MI_GWLOTO_DESC;
 $modversion['credits'] = "geekwight, LLC";
 $modversion['help'] = "";
 $modversion['license'] = 'GNU General Public License V2 or later';
 $modversion['official'] = 0;
-$modversion['image'] = "images/icon_big.png";
+if (defined("ICMS_ROOT_PATH")) $modversion['image'] = "images/icon_big.png";
+else $modversion['image'] = "images/icon.png";
 $modversion['dirname'] = basename( dirname( __FILE__ ) ) ;
 
 // Admin things
