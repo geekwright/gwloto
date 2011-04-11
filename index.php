@@ -43,7 +43,7 @@ if (isset($currentplace)) getAttachedMedia('place', $currentplace, $language, fa
 $jobs=getAvailableJobs($myuserid);
 
 //$debug='<pre>$_POST='.print_r($_POST,true).'</pre>';
-$debug='<pre>$places='.print_r($places,true).'</pre>';
+//$debug='<pre>$places='.print_r($places,true).'</pre>';
 //if(isset($cplans)) $debug.='<pre>cplans='.print_r($cplans,true).'</pre>';
 //$debug.='<pre>$_SESSION='.print_r($_SESSION,true).'</pre>';
 //$debug.='<pre>$xoopsConfig='.print_r($xoopsConfig,true).'</pre>';
