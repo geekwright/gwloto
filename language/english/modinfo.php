@@ -113,8 +113,9 @@ define('_MI_GWLOTO_CFG_MEDIA_PATH_DSC','Directory where media files are placed w
 define('_MI_GWLOTO_CFG_MAX_MEDIA_SIZE','Max Media File Size');
 define('_MI_GWLOTO_CFG_MAX_MEDIA_SIZE_DSC','Maximum file size in bytes to allow in new media uploads.');
 
-define('_MI_GWLOTO_CFG_ENABLE_GOOGLE_TRANSLATE','Enable Google Translation');
-define('_MI_GWLOTO_CFG_ENABLE_GOOGLE_TRANSLATE_DSC','This will enable application access to Google AJAX Language API for Translation. This enables extra features for users with translation authorities. For terms and additional information see: http://code.google.com/apis/ajaxlanguage/');
+// removed in 1.1
+//define('_MI_GWLOTO_CFG_ENABLE_GOOGLE_TRANSLATE','Enable Google Translation');
+//define('_MI_GWLOTO_CFG_ENABLE_GOOGLE_TRANSLATE_DSC','This will enable application access to Google AJAX Language API for Translation. This enables extra features for users with translation authorities. For terms and additional information see: http://code.google.com/apis/ajaxlanguage/');
 
 define('_MI_GWLOTO_CFG_TCPDF_PATH','Path to TCPDF');
 define('_MI_GWLOTO_CFG_TCPDF_PATH_DSC','TCPDF is required for most standard plugins. If it is installed, but not in a location that is auto-detected, please specify the full path (i.e. /full/path/to/tcpdf.php) here.');
@@ -123,4 +124,13 @@ define('_MI_GWLOTO_CFG_TCPDF_PATH_DSC','TCPDF is required for most standard plug
 define('_MI_GWLOTO_ASSIGNED_BLOCK', 'Assigned Jobs');
 define('_MI_GWLOTO_ASSIGNED_BLOCK_DESC', 'Lists active job steps assigned to current user.');
 
+//new since 1.0
+define('_MI_GWLOTO_CFG_ENABLE_TRANSLATE','Enable Translation');
+define('_MI_GWLOTO_CFG_ENABLE_TRANSLATE_DSC','This will enable AJAX translation access to Google Translate API or Microsoft Translator API');
+define('_MI_GWLOTO_CFG_ENABLE_TRANSLATE_OFF','Off');
+define('_MI_GWLOTO_CFG_ENABLE_TRANSLATE_GOOGLE','Google');
+define('_MI_GWLOTO_CFG_ENABLE_TRANSLATE_BING','Bing');
+
+define('_MI_GWLOTO_CFG_TRANSLATE_KEY','Translation API Key');
+define('_MI_GWLOTO_CFG_TRANSLATE_KEY_DSC','An API Key may be required to access the AJAX tranalation services. Please see the documentation for more information.');
 ?>

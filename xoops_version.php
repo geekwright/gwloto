@@ -100,12 +100,21 @@ $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = '5000000';
 
 ++$i;
-$modversion['config'][$i]['name'] = 'enable_google';
-$modversion['config'][$i]['title'] = '_MI_GWLOTO_CFG_ENABLE_GOOGLE_TRANSLATE';
-$modversion['config'][$i]['description'] = '_MI_GWLOTO_CFG_ENABLE_GOOGLE_TRANSLATE_DSC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['name'] = 'enable_translate';
+$modversion['config'][$i]['title'] = '_MI_GWLOTO_CFG_ENABLE_TRANSLATE';
+$modversion['config'][$i]['description'] = '_MI_GWLOTO_CFG_ENABLE_TRANSLATE_DSC';
+$modversion['config'][$i]['formtype'] = 'select';
+$modversion['config'][$i]['valuetype'] = 'text';
 $modversion['config'][$i]['default'] = '0';
+$modversion['config'][$i]['options'] = array(_MI_GWLOTO_CFG_ENABLE_TRANSLATE_OFF=>0, _MI_GWLOTO_CFG_ENABLE_TRANSLATE_GOOGLE=>1, _MI_GWLOTO_CFG_ENABLE_TRANSLATE_BING=>2);
+
+++$i;
+$modversion['config'][$i]['name'] = 'translate_api_key';
+$modversion['config'][$i]['title'] = '_MI_GWLOTO_CFG_TRANSLATE_KEY';
+$modversion['config'][$i]['description'] = '_MI_GWLOTO_CFG_TRANSLATE_KEY_DSC';
+$modversion['config'][$i]['formtype'] = 'textbox';
+$modversion['config'][$i]['valuetype'] = 'text';
+$modversion['config'][$i]['default'] = '';
 
 ++$i;
 $modversion['config'][$i]['name'] = 'tcpdf_path';

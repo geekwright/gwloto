@@ -264,14 +264,19 @@ if($xoopsModuleConfig['show_reconnect']) {
 		$langtray->addElement(new XoopsFormButton('', 'lchange', _MD_GWLOTO_LANG_CHANGE_BUTTON, 'submit'));
 
 
-		$googleTranslateEnabled=$xoopsModuleConfig['enable_google'];
+		$googleTranslateEnabled=($xoopsModuleConfig['enable_translate']==1);
+		$bingTranslateEnabled=($xoopsModuleConfig['enable_translate']==2);
+		$TranslateAPIKey=$xoopsModuleConfig['translate_api_key'];
+
 		$langcodes=getLanguageCodes();
 		foreach($langcodes as $i => $v) {
-			if($v=='') $googleTranslateEnabled=false;
+			if($v=='') { $googleTranslateEnabled=false; $bingTranslateEnabled=false; }
 		}
 
 		if($googleTranslateEnabled) {
-			$xoTheme->addScript('http://www.google.com/jsapi');
+			if($TranslateAPIKey=='') { $key=''; }
+			else { $key='key='.$TranslateAPIKey; }
+			$xoTheme->addScript('http://www.google.com/jsapi?'.$key); 
 
 			$translate_js = '';
 			$langcodes=getLanguageCodes();
@@ -373,6 +378,122 @@ ENDJSCODE;
 			$langtray->addElement(new XoopsFormLabel('', '<span id=\'googlebranding\'> </span>', 'branding'),false);
 		}
 
+// begin microsoft translate support
+		if($bingTranslateEnabled) {
+			if($TranslateAPIKey=='') $bingTranslateEnabled=false;
+		}
+		if($bingTranslateEnabled) {
+			$translate_js = '';
+			$langcodes=getLanguageCodes();
+			$translate_js .= 'var langCodes=new Array();';
+			foreach($langcodes as $i => $v) {
+				$translate_js .= "langCodes[$i]=\"$v\";";
+			}
+			$translate_js .= "appIdToken=\"$TranslateAPIKey\";";
+
+			$translate_js .= "useReconnect=".$xoopsModuleConfig['show_reconnect'].";";
+			$translate_js .= "useInspect=".$xoopsModuleConfig['show_inspect'].";";
+
+			$translate_js .= <<<ENDJSCODEB
+
+function prepInput(value) {
+	var preped = value.replace(/\\n/g, "<br />");
+	preped = preped.replace(/"/g, "&quot;");
+	preped = encodeURIComponent(preped);
+	return preped;
+}
+
+function prepOutput(value) {
+	var preped = decodeURIComponent(value);
+	preped = preped.replace(/<br\s*\/?>/g, "\\n");
+	preped = preped.replace(/&quot;/g, "\\"");
+	return preped;
+}
+
+var Translate={
+	baseUrl:"http://api.microsofttranslator.com/V2/Ajax.svc/",
+	appId:appIdToken,
+	contentType:"text/html",
+	translate:function(text,from,to,callback){
+		if(text.length>0) {
+			var s = document.createElement("script");
+			s.src =this.baseUrl+"/Translate";
+			s.src += "?oncomplete=" + callback; 
+			s.src += "&appId=" + this.appId;
+			s.src += "&from" + from;
+			s.src += "&to=" + to;
+			s.src += "&contentType=" + this.contentType;
+			s.src += "&text=" + prepInput(text); 
+			document.getElementsByTagName("head")[0].appendChild(s);
+		}
+	}
+}
+
+var cb_cpoint_name=function(result){
+	var form = window.document.form1;
+	form.cpoint_name.value=prepOutput(result);
+};
+
+var cb_disconnect_instructions=function(result){
+	var form = window.document.form1;
+	form.disconnect_instructions.value=prepOutput(result);
+};
+
+var cb_disconnect_state=function(result){
+	var form = window.document.form1;
+	form.disconnect_state.value=prepOutput(result);
+};
+
+var cb_reconnect_instructions=function(result){
+	var form = window.document.form1;
+	form.reconnect_instructions.value=prepOutput(result);
+};
+
+var cb_reconnect_state=function(result){
+	var form = window.document.form1;
+	form.reconnect_state.value=prepOutput(result);
+};
+
+var cb_inspection_instructions=function(result){
+	var form = window.document.form1;
+	form.inspection_instructions.value=prepOutput(result);
+};
+
+var cb_inspection_state=function(result){
+	var form = window.document.form1;
+	form.inspection_state.value=prepOutput(result);
+};
+
+
+function doTranslate(form) {
+	var langId = form.lid.value;
+
+	var langFrom = ''; // autodetect
+	var langTo = langCodes[langId];
+
+	Translate.translate(form.cpoint_name.value,langFrom,langTo,"cb_cpoint_name");
+	Translate.translate(form.disconnect_instructions.value,langFrom,langTo,"cb_disconnect_instructions");
+	Translate.translate(form.disconnect_state.value,langFrom,langTo,"cb_disconnect_state");
+	if(useReconnect) {
+		Translate.translate(form.reconnect_instructions.value,langFrom,langTo,"cb_reconnect_instructions");
+	}
+	Translate.translate(form.reconnect_state.value,langFrom,langTo,"cb_reconnect_state");
+	if(useInspect) {
+		Translate.translate(form.inspection_instructions.value,langFrom,langTo,"cb_inspection_instructions");
+		Translate.translate(form.inspection_state.value,langFrom,langTo,"cb_inspection_state");
+	}
+
+}
+ENDJSCODEB;
+
+			$xoTheme->addScript( null, array( 'type' => 'text/javascript' ), $translate_js );
+
+			$translate_button=new XoopsFormButton('', 'lchange', _MD_GWLOTO_LANG_TRANS_BUTTON, 'button');
+			$translate_button->setExtra(' onClick=\'doTranslate(this.form)\' ');
+			$langtray->addElement($translate_button);
+		}
+
+// end microsoft translate support
 
 		$form->addElement($langtray);
 	}

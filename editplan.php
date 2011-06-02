@@ -188,14 +188,19 @@ if($op=='update') {
 
 		$langtray->addElement(new XoopsFormButton('', 'lchange', _MD_GWLOTO_LANG_CHANGE_BUTTON, 'submit'));
 
-		$googleTranslateEnabled=$xoopsModuleConfig['enable_google'];
+		$googleTranslateEnabled=($xoopsModuleConfig['enable_translate']==1);
+		$bingTranslateEnabled=($xoopsModuleConfig['enable_translate']==2);
+		$TranslateAPIKey=$xoopsModuleConfig['translate_api_key'];
+
 		$langcodes=getLanguageCodes();
 		foreach($langcodes as $i => $v) {
-			if($v=='') $googleTranslateEnabled=false;
+			if($v=='') { $googleTranslateEnabled=false; $bingTranslateEnabled=false; }
 		}
 
 		if($googleTranslateEnabled) {
-			$xoTheme->addScript('http://www.google.com/jsapi');
+			if($TranslateAPIKey=='') { $key=''; }
+			else { $key='key='.$TranslateAPIKey; }
+			$xoTheme->addScript('http://www.google.com/jsapi?'.$key); 
 
 			$translate_js = '';
 			$langcodes=getLanguageCodes();
@@ -294,6 +299,108 @@ ENDJSCODE;
 			$langtray->addElement(new XoopsFormLabel('', '<span id=\'googlebranding\'> </span>', 'branding'),false);
 		}
 
+// begin microsoft translate support
+		if($bingTranslateEnabled) {
+			if($TranslateAPIKey=='') $bingTranslateEnabled=false;
+		}
+		if($bingTranslateEnabled) {
+			$translate_js = '';
+			$langcodes=getLanguageCodes();
+			$translate_js .= 'var langCodes=new Array();';
+			foreach($langcodes as $i => $v) {
+				$translate_js .= "langCodes[$i]=\"$v\";";
+			}
+			$translate_js .= "appIdToken=\"$TranslateAPIKey\";";
+
+			$translate_js .= <<<ENDJSCODEB
+
+function prepInput(value) {
+	var preped = value.replace(/\\n/g, "<br />");
+	preped = preped.replace(/"/g, "&quot;");
+	preped = encodeURIComponent(preped);
+	return preped;
+}
+
+function prepOutput(value) {
+	var preped = decodeURIComponent(value);
+	preped = preped.replace(/<br\s*\/?>/g, "\\n");
+	preped = preped.replace(/&quot;/g, "\\"");
+	return preped;
+}
+
+var Translate={
+	baseUrl:"http://api.microsofttranslator.com/V2/Ajax.svc/",
+	appId:appIdToken,
+	contentType:"text/html",
+	translate:function(text,from,to,callback){
+		if(text.length>0) {
+			var s = document.createElement("script");
+			s.src =this.baseUrl+"/Translate";
+			s.src += "?oncomplete=" + callback; 
+			s.src += "&appId=" + this.appId;
+			s.src += "&from" + from;
+			s.src += "&to=" + to;
+			s.src += "&contentType=" + this.contentType;
+			s.src += "&text=" + prepInput(text); 
+			document.getElementsByTagName("head")[0].appendChild(s);
+		}
+	}
+}
+
+var cb_cplan_name=function(result){
+	var form = window.document.form1;
+	form.cplan_name.value=prepOutput(result);
+};
+
+var cb_cplan_review=function(result){
+	var form = window.document.form1;
+	form.cplan_review.value=prepOutput(result);
+};
+
+var cb_hazard_inventory=function(result){
+	var form = window.document.form1;
+	form.hazard_inventory.value=prepOutput(result);
+};
+
+var cb_required_ppe=function(result){
+	var form = window.document.form1;
+	form.required_ppe.value=prepOutput(result);
+};
+
+var cb_authorized_personnel=function(result){
+	var form = window.document.form1;
+	form.authorized_personnel.value=prepOutput(result);
+};
+
+var cb_additional_requirements=function(result){
+	var form = window.document.form1;
+	form.additional_requirements.value=prepOutput(result);
+};
+
+function doTranslate(form) {
+	var langId = form.lid.value;
+
+	var langFrom = ''; // autodetect
+	var langTo = langCodes[langId];
+
+	Translate.translate(form.cplan_name.value,langFrom,langTo,"cb_cplan_name");
+	Translate.translate(form.cplan_review.value,langFrom,langTo,"cb_cplan_review");
+	Translate.translate(form.hazard_inventory.value,langFrom,langTo,"cb_hazard_inventory");
+	Translate.translate(form.required_ppe.value,langFrom,langTo,"cb_required_ppe");
+	Translate.translate(form.authorized_personnel.value,langFrom,langTo,"cb_authorized_personnel");
+	Translate.translate(form.additional_requirements.value,langFrom,langTo,"cb_additional_requirements");
+
+}
+ENDJSCODEB;
+
+			$xoTheme->addScript( null, array( 'type' => 'text/javascript' ), $translate_js );
+
+			$translate_button=new XoopsFormButton('', 'lchange', _MD_GWLOTO_LANG_TRANS_BUTTON, 'button');
+			$translate_button->setExtra(' onClick=\'doTranslate(this.form)\' ');
+			$langtray->addElement($translate_button);
+		}
+
+// end microsoft translate support
 
 		$form->addElement($langtray);
 
