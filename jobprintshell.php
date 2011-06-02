@@ -72,7 +72,8 @@ if(isset($reports[$currentreport]['language_file']) && $reports[$currentreport][
 		}
 	}
 }
-
+error_reporting(0);
+$xoopsLogger->activated = false;
 require 'plugins/'.$reports[$currentreport]['filename'];
 
 //echo '<pre>$reports='.print_r($reports,true).'</pre>';
