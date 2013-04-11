@@ -147,6 +147,7 @@ $modversion['tables'][]  = 'gwloto_job_steps';
 $modversion['tables'][]  = 'gwloto_job_places';
 $modversion['tables'][]  = 'gwloto_plugin_register';
 $modversion['tables'][]  = 'gwloto_plugin_name';
+$modversion['tables'][]  = 'gwloto_group_auth';
 
 // Blocks
 $modversion['blocks'][1] = array(
