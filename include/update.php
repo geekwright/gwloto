@@ -19,10 +19,20 @@ function xoops_module_update_gwloto(&$module, $old_version) {
 	$ourdir=$module->getVar('dirname');
     if ($old_version < 110) //If upgrade from gwloto older than 1.10
 	{
-	    $xoopsDB->queryFromFile(XOOPS_ROOT_PATH.'/modules/'.$ourdir.'/sql/upgrade-1.0-to-1.1.sql');
+	    //$xoopsDB->queryFromFile(XOOPS_ROOT_PATH.'/modules/'.$ourdir.'/sql/upgrade-1.0-to-1.1.sql');
+    	$sql="CREATE TABLE ".$xoopsDB->prefix('gwloto_group_auth'). " (" .
+			"  groupid int(8) unsigned NOT NULL," .
+			"  place_id int(8) unsigned NOT NULL," .
+			"  authority int(8) unsigned NOT NULL default '0'," .
+			"  last_changed_by int(8) NOT NULL," .
+			"  last_changed_on int(10) NOT NULL," .
+			"  PRIMARY KEY (groupid, place_id, authority)," .
+			"  KEY (authority,place_id)" .
+			" ) ENGINE=InnoDB DEFAULT CHARSET=utf8; "; 
+		$xoopsDB->queryF($sql);
     }
 
-    $module->setErrors("Update Post-Process Completed");
+//    $module->setErrors("Update Post-Process Completed");
     return true;
 }
 
