@@ -53,8 +53,8 @@ global $pdf;
 	$pdf->SetMargins(0.2, 0.2, 0.2, true);
 	$pdf->SetAutoPageBreak(true,0.2);
 
-	$pdf->AliasNbPages('{nb}');
-	$pdf->AliasNumPage('{pnb}');
+//	$pdf->AliasNbPages('{nb}');
+//	$pdf->AliasNumPage('{pnb}');
 
 	$pdf->SetDisplayMode('default', 'SinglePage', 'UseNone');
 
@@ -65,7 +65,7 @@ global $pdf;
 	ob_clean();
 	$zapus = array(' ', ',', '.', '/', '\\','<','>','|');
 	$filename = str_replace($zapus, '_', $jobdata['job_name']);
-	$pdf->Output('log_'.$filename.'.pdf', 'D'); //  I=send inline, D=force download
+	$pdf->Output('log_'.$filename.'.pdf', 'I'); //  I=send inline, D=force download
 }
 
 function myBeginStepFunc($jobdata,$jobstepdata,$pointdata) {
@@ -81,9 +81,9 @@ $LOG_TITLE=$GLOBALS['_GW_LOG_TITLE'][$lid];
 
 $LOG_JOB_NAME=$GLOBALS['_GW_LOG_JOB_NAME'][$lid];
 $LOG_JOB_PHASE=$GLOBALS['_GW_LOG_JOB_PHASE'][$lid];
-$LOG_JOB_SEQUENCE=$GLOBALS['_GW_LOG_JOB_SEQUENCE'][$lid][$seqstate];
+$LOG_JOB_SEQUENCE=$GLOBALS['_GW_LOG_JOB_SEQUENCE'][$lid][$seqlabel];
 //['seq_disconnect'], ['seq_inspection'], ['seq_reconnect']
-$LOG_PAGE_NUMBERS=$GLOBALS['_GW_LOG_PAGE_NUMBERS'][$lid];
+$LOG_PAGE_NUMBERS=sprintf($GLOBALS['_GW_LOG_PAGE_NUMBERS'][$lid],$pdf->getAliasNumPage(),$pdf->getAliasNbPages());
 $LOG_PLACE=$GLOBALS['_GW_LOG_PLACE'][$lid];
 $LOG_WORKORDER=$GLOBALS['_GW_LOG_WORKORDER'][$lid];
 $LOG_SUPERVISOR=$GLOBALS['_GW_LOG_SUPERVISOR'][$lid];

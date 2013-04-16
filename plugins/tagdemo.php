@@ -56,8 +56,8 @@ global $xmedia, $ymedia, $xoffset, $yoffset;
 	$pdf->SetMargins(0.1+$xoffset, 0.1+$yoffset, 0.1+$xoffset, true);
 	$pdf->SetAutoPageBreak(false,0);
 
-	$pdf->AliasNbPages('{nb}');
-	$pdf->AliasNumPage('{pnb}');
+//	$pdf->AliasNbPages('{nb}');
+//	$pdf->AliasNumPage('{pnb}');
 
 	$preferences = array(
     		'PageLayoutSinglePage' => true,
@@ -72,7 +72,7 @@ global $pdf;
 	ob_clean();
 	$zapus = array(' ', ',', '.', '/', '\\','<','>','|');
 	$filename = str_replace($zapus, '_', $jobdata['job_name']);
-	$pdf->Output('tags_'.$filename.'.pdf', 'D'); //  I=send inline, D=force download
+	$pdf->Output('tags_'.$filename.'.pdf', 'I'); //  I=send inline, D=force download
 }
 
 function myBeginStepFunc($jobdata,$jobstepdata,$pointdata) {

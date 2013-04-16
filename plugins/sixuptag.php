@@ -75,7 +75,7 @@ function myEndJobFunc($jobdata,$jobstepdata,$pointdata) {
 global $pdf;
 	$zapus = array(' ', ',', '.', '/', '\\','<','>','|');
 	$filename = str_replace($zapus, '_', $jobdata['job_name']);
-	$pdf->Output('tags_'.$filename.'.pdf', 'D'); //  I=send inline, D=force download
+	$pdf->Output('tags_'.$filename.'.pdf', 'I'); //  I=send inline, D=force download
 }
 
 function myBeginStepFunc($jobdata,$jobstepdata,$pointdata) {
