@@ -55,13 +55,12 @@ if ($op!='display') {
 }
 
 if($op=='add') {
-	$myts = myTextSanitizer::getInstance();
-	$sl_cplan_name=$myts->addslashes($cplan_name);
-	$sl_cplan_review=$myts->addslashes($cplan_review);
-	$sl_hazard_inventory=$myts->addslashes($hazard_inventory);
-	$sl_required_ppe=$myts->addslashes($required_ppe);
-	$sl_authorized_personnel=$myts->addslashes($authorized_personnel);
-	$sl_additional_requirements=$myts->addslashes($additional_requirements);
+	$sl_cplan_name=dbescape($cplan_name);
+	$sl_cplan_review=dbescape($cplan_review);
+	$sl_hazard_inventory=dbescape($hazard_inventory);
+	$sl_required_ppe=dbescape($required_ppe);
+	$sl_authorized_personnel=dbescape($authorized_personnel);
+	$sl_additional_requirements=dbescape($additional_requirements);
 
 	$dberr=false;
 	$dbmsg='';

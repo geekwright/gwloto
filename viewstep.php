@@ -104,8 +104,7 @@ if($op=='update' || $op=='add') {
 	if(isset($_POST['job_step_status'])) $job_step_status = cleaner($_POST['job_step_status']);
 	if(!isset($stepstatus[$job_step_status])) $job_step_status = 'planning';
 
-	$myts = myTextSanitizer::getInstance();
-	$sl_step_name=$myts->addslashes($step_name);
+	$sl_step_name=dbescape($step_name);
 
 	$check=$GLOBALS['xoopsSecurity']->check();
 

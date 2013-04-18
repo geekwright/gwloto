@@ -90,13 +90,12 @@ $last_changed_on='';
 	if($hazard_inventory=='') $hazard_inventory=$places['current']['place_hazard_inventory'];
 	if($required_ppe=='') $required_ppe=$places['current']['place_required_ppe'];
 
-	$myts = myTextSanitizer::getInstance();
-	// $cplan_name=$myts->nl2Br($cplan_name);
-	$cplan_review=$myts->nl2Br($cplan_review);
-	$hazard_inventory=$myts->nl2Br($hazard_inventory);
-	$required_ppe=$myts->nl2Br($required_ppe);
-	$authorized_personnel=$myts->nl2Br($authorized_personnel);
-	$additional_requirements=$myts->nl2Br($additional_requirements);
+	// $cplan_name=nl2br($cplan_name);
+	$cplan_review=nl2br($cplan_review);
+	$hazard_inventory=nl2br($hazard_inventory);
+	$required_ppe=nl2br($required_ppe);
+	$authorized_personnel=nl2br($authorized_personnel);
+	$additional_requirements=nl2br($additional_requirements);
 
 	$token=0;
 

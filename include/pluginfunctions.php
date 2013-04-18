@@ -119,14 +119,12 @@ function installPluginFromFile($filename) {
 			}
 		}
 
-		$myts = myTextSanitizer::getInstance();
-
-		$sl_plugin_type=$myts->addslashes($plugin_type);
-		$sl_plugin_link=$myts->addslashes($plugin_link);
-		$sl_plugin_filename=$myts->addslashes($plugin_filename);
-		$sl_plugin_language_filename=$myts->addslashes($plugin_language_filename);
-		$sl_plugin_name=$myts->addslashes($plugin_name);
-		$sl_plugin_description=$myts->addslashes($plugin_description);
+		$sl_plugin_type=dbescape($plugin_type);
+		$sl_plugin_link=dbescape($plugin_link);
+		$sl_plugin_filename=dbescape($plugin_filename);
+		$sl_plugin_language_filename=dbescape($plugin_language_filename);
+		$sl_plugin_name=dbescape($plugin_name);
+		$sl_plugin_description=dbescape($plugin_description);
 
 		$dberr=false;
 		$dbmsg='';

@@ -12,15 +12,17 @@
 * @version    $Id$
 */
 
-include ('../../../include/cp_header.php');
-include_once "functions.php";
+include 'header.php';
 include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";
 include ('../include/userauth.php');
-include_once ('../include/dbcommon.php');
 
-xoops_cp_header();
+if($xoop25plus) {
+	echo $moduleAdmin->addNavigation('addplace.php');
+}
+else { // !$xoop25plus
+	adminmenu(3);
+}
 
-adminmenu(2);
 
 	$myuserid = $xoopsUser->getVar('uid');
 
@@ -33,6 +35,14 @@ adminmenu(2);
 	if(isset($_POST['op'])) $op = cleaner($_POST['op']);
 
 	if($place_name=='' || $op != 'add') $op='display';
+
+	if($op=='add') {
+		$check=$GLOBALS['xoopsSecurity']->check();
+		if (!$check) {
+			$op='display';
+			$err_message = _AD_GWLOTO_BAD_TOKEN;
+		}
+	}
 
 	if($op=='add') {
 		$dberr=false;
@@ -85,7 +95,7 @@ adminmenu(2);
 
 	if(isset($err_message)) echo "<br><br><b>$err_message</b><br><br>";
 
-	$token=0;
+	$token=1;
 
 	$form = new XoopsThemeForm(_MI_GWLOTO_AD_PLACE_FORMNAME, 'form1', 'addplace.php', 'POST', $token);
 
@@ -136,5 +146,5 @@ if ($result) {
 if($cnt==0) echo '<tr><td colspan="3" align="center">'._MI_GWLOTO_AD_PLACE_LISTEMPTY.'</td></tr>';
 echo "</table>";
 
-xoops_cp_footer();
+include 'footer.php';
 ?>

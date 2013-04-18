@@ -101,11 +101,10 @@ $cpoint_id=$currentpoint;
 
 	$cpointcnt=getCPointCounts($currentplan);
 
-	$myts = myTextSanitizer::getInstance();
-	// $cplan_name=$myts->nl2Br($cplan_name);
-	$disconnect_instructions = $myts->nl2Br($disconnect_instructions);
-	$reconnect_instructions = $myts->nl2Br($reconnect_instructions);
-	$inspection_instructions = $myts->nl2Br($inspection_instructions);
+	// $cplan_name=nl2br($cplan_name);
+	$disconnect_instructions = nl2br($disconnect_instructions);
+	$reconnect_instructions = nl2br($reconnect_instructions);
+	$inspection_instructions = nl2br($inspection_instructions);
 
 	$token=0;
 

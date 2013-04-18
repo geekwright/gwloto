@@ -106,9 +106,8 @@ $job_status='';
 		redirect_header('index.php', 3, _MD_GWLOTO_JOB_NOTFOUND);
 	}
 
-	$myts = myTextSanitizer::getInstance();
-	// $cplan_name=$myts->nl2Br($cplan_name);
-	$job_description=$myts->nl2Br($job_description);
+	// $cplan_name=nl2br($cplan_name);
+	$job_description=nl2br($job_description);
 
 $step_name='';
 $assigned_uid=$myuserid;

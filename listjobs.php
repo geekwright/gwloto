@@ -32,15 +32,14 @@ if(!isset($places['alluserauth'][_GWLOTO_USERAUTH_JB_VIEW]) &&
 // searching
 $jobsearchterms='';
 $jobstatusfilter='';
-$myts = myTextSanitizer::getInstance();
 if(isset($_GET['jobsearchterms'])) $jobsearchterms = cleaner($_GET['jobsearchterms']);
 if(isset($_POST['jobsearchterms'])) $jobsearchterms = cleaner($_POST['jobsearchterms']);
 $xoopsTpl->assign('jobsearchterms',$jobsearchterms);
-$jobsearchterms=$myts->addslashes($jobsearchterms);
+$jobsearchterms=dbescape($jobsearchterms);
 if(isset($_GET['jobstatusfilter'])) $jobstatusfilter = cleaner($_GET['jobstatusfilter']);
 if(isset($_POST['jobstatusfilter'])) $jobstatusfilter = cleaner($_POST['jobstatusfilter']);
 $xoopsTpl->assign('jobstatusfilter',$jobstatusfilter);
-$jobstatusfilter=$myts->addslashes($jobstatusfilter);
+$jobstatusfilter=dbescape($jobstatusfilter);
 
 if($jobsearchterms!='') {
 	$searchsql=" AND (job_name like '%$jobsearchterms%' OR job_description like '%$jobsearchterms%' OR job_workorder like '%$jobsearchterms%') ";

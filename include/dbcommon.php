@@ -43,12 +43,17 @@ global $xoopsDB;
 }
 
 function cleaner($string) {
+	if (get_magic_quotes_gpc()) $string = stripslashes($string); 
 //	$string=stripcslashes($string);
 	$string=html_entity_decode($string);
 	$string=strip_tags($string);
 	$string=trim($string);
 	$string=stripslashes($string);
 	return $string;
+}
+
+function dbescape($string) {
+	return mysql_real_escape_string($string); 
 }
 
 function getMediaUploadPath() {

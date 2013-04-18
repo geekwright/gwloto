@@ -112,10 +112,9 @@ if ($op!='display') {
 }
 
 if($op=='update') {
-	$myts = myTextSanitizer::getInstance();
-	$sl_plugin_name=$myts->addslashes($plugin_name);
-	$sl_plugin_description=$myts->addslashes($plugin_description);
-	$sl_place_required_ppe=$myts->addslashes($place_required_ppe);
+	$sl_plugin_name=dbescape($plugin_name);
+	$sl_plugin_description=dbescape($plugin_description);
+	$sl_place_required_ppe=dbescape($place_required_ppe);
 
 	$sql ="UPDATE ".$xoopsDB->prefix('gwloto_plugin_name');
 	$sql.=" SET plugin_name = '$sl_plugin_name'";

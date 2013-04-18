@@ -124,14 +124,13 @@ if ($op!='display') {
 }
 
 if($op=='update' || $op=='updatetran') {
-	$myts = myTextSanitizer::getInstance();
-	$sl_cpoint_name=$myts->addslashes($cpoint_name);
-	$sl_disconnect_instructions=$myts->addslashes($disconnect_instructions);
-	$sl_disconnect_state=$myts->addslashes($disconnect_state);
-	$sl_reconnect_instructions=$myts->addslashes($reconnect_instructions);
-	$sl_reconnect_state=$myts->addslashes($reconnect_state);
-	$sl_inspection_instructions=$myts->addslashes($inspection_instructions);
-	$sl_inspection_state=$myts->addslashes($inspection_state);
+	$sl_cpoint_name=dbescape($cpoint_name);
+	$sl_disconnect_instructions=dbescape($disconnect_instructions);
+	$sl_disconnect_state=dbescape($disconnect_state);
+	$sl_reconnect_instructions=dbescape($reconnect_instructions);
+	$sl_reconnect_state=dbescape($reconnect_state);
+	$sl_inspection_instructions=dbescape($inspection_instructions);
+	$sl_inspection_state=dbescape($inspection_state);
 
 	$dberr=false;
 	$dbmsg='';

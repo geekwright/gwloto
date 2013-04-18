@@ -15,16 +15,27 @@
 if (!defined("XOOPS_ROOT_PATH")) die("Root path not defined");
 
 $modversion['name'] = _MI_GWLOTO_NAME;
-$modversion['version'] = '1.1';
+$modversion['version'] = '1.0';
 $modversion['description'] = _MI_GWLOTO_DESC;
+$modversion['author'] = "Richard Griffith - richard@geekwright.com";
 $modversion['credits'] = "geekwight, LLC";
-$modversion['help'] = "";
 $modversion['license'] = 'GNU General Public License V2 or later';
 $modversion['official'] = 0;
 if (defined("ICMS_ROOT_PATH")) $modversion['image'] = "images/icon_big.png";
 else $modversion['image'] = "images/icon.png";
 $modversion['dirname'] = basename( dirname( __FILE__ ) ) ;
 
+// things for ModuleAdmin() class
+$modversion['license_url'] = XOOPS_URL.'/modules/gwreports/docs/license.txt';
+$modversion['license_url'] = substr($modversion['license_url'],strpos($modversion['license_url'],'//')+2);
+$modversion['release_date']     = '2013/05/01';
+$modversion['module_website_url'] = 'geekwright.com';
+$modversion['module_website_name'] = 'geekwright, LLC';
+$modversion['module_status'] = "RC";
+$modversion['min_php']='5.2';
+$modversion['min_xoops']='2.5';
+$modversion['system_menu'] = 1;
+$modversion['help'] = "page=help";
 // Admin things
 $modversion['hasAdmin'] = 1;
 $modversion['adminindex'] = 'admin/index.php';

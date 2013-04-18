@@ -412,13 +412,12 @@ if($op!='display') {
 
 if($op!='display') {
 // start transaction
-	$myts = myTextSanitizer::getInstance();
-	$sl_media_filename=$myts->addslashes($media_filename);
-	$sl_media_storedname=$myts->addslashes($media_storedname);
-	$sl_media_mimetype=$myts->addslashes($media_mimetype);
-	$sl_media_class=$myts->addslashes($media_class);
-	$sl_media_name=$myts->addslashes($media_name);
-	$sl_media_description=$myts->addslashes($media_description);
+	$sl_media_filename=dbescape($media_filename);
+	$sl_media_storedname=dbescape($media_storedname);
+	$sl_media_mimetype=dbescape($media_mimetype);
+	$sl_media_class=dbescape($media_class);
+	$sl_media_name=dbescape($media_name);
+	$sl_media_description=dbescape($media_description);
 
 	$dberr=false;
 	$dbmsg='';
@@ -793,8 +792,7 @@ ENDJSCODEB;
 	$body=$form->render();
 }
 else { // view only
-	$myts = myTextSanitizer::getInstance();
-	$media_description=$myts->nl2Br($media_description);
+	$media_description=nl2br($media_description);
 
 	$token=false;
 

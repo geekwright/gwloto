@@ -12,13 +12,15 @@
 * @version    $Id$
 */
 
-include ('../../../include/cp_header.php');
-include_once 'functions.php';
-
+include 'header.php';
 include_once ('../include/pluginfunctions.php');
 
-xoops_cp_header();
-adminmenu(4);
+if($xoop25plus) {
+	echo $moduleAdmin->addNavigation('plugins.php');
+}
+else { // !$xoop25plus
+	adminmenu(5);
+}
 
 function getLanguageByFolder() {
 	global $xoopsDB;
@@ -149,5 +151,6 @@ if($cnt==0) echo '<tr><td colspan="6" align="center">'._MI_GWLOTO_AD_PLUGINS_LIS
 echo "</table>";
 $dirname=$xoopsModule->getInfo('dirname');
 echo '<br /><a href="'.XOOPS_URL.'/modules/'.$dirname.'/sortplugins.php">'._MI_GWLOTO_AD_PLUGINS_ACTION_SORT.'</a>';
-xoops_cp_footer();
+
+include 'footer.php';
 ?>

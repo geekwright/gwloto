@@ -12,14 +12,15 @@
 * @version    $Id$
 */
 
-include ('../../../include/cp_header.php');
-include_once "functions.php";
+include 'header.php';
 include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";
-include ('../include/dbcommon.php');
-xoops_cp_header();
 
-adminmenu(3);
-
+if($xoop25plus) {
+	echo $moduleAdmin->addNavigation('language.php');
+}
+else { // !$xoop25plus
+	adminmenu(4);
+}
 	$myuserid = $xoopsUser->getVar('uid');
 
 	$admin_uid=$myuserid;
@@ -167,5 +168,5 @@ if ($result) {
 if($cnt==0) echo '<tr><td colspan="3" align="center">'._MI_GWLOTO_AD_LANG_LISTEMPTY.'</td></tr>';
 echo "</table>";
 
-xoops_cp_footer();
+include 'footer.php';
 ?>

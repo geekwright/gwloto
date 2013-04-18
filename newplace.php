@@ -51,10 +51,9 @@ if ($op!='display') {
 }
 
 if($op=='add') {
-	$myts = myTextSanitizer::getInstance();
-	$sl_place_name=$myts->addslashes($place_name);
-	$sl_place_hazard_inventory=$myts->addslashes($place_hazard_inventory);
-	$sl_place_required_ppe=$myts->addslashes($place_required_ppe);
+	$sl_place_name=dbescape($place_name);
+	$sl_place_hazard_inventory=dbescape($place_hazard_inventory);
+	$sl_place_required_ppe=dbescape($place_required_ppe);
 
 	$dberr=false;
 	$dbmsg='';

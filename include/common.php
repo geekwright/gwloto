@@ -346,10 +346,9 @@ global $places, $xoopsTpl;
 $placesummary=array();
 
 	if (isset($places['current'])) {
-		$myts = myTextSanitizer::getInstance();
-		$hazard_inventory=$myts->nl2Br($places['current']['place_hazard_inventory']);
+		$hazard_inventory=nl2br($places['current']['place_hazard_inventory']);
 		if($hazard_inventory=='') $hazard_inventory=_MD_GWLOTO_NO_PLACE_HAZARDS;
-		$required_ppe=$myts->nl2Br($places['current']['place_required_ppe']);
+		$required_ppe=nl2br($places['current']['place_required_ppe']);
 		if($required_ppe=='') $required_ppe=_MD_GWLOTO_NO_PLACE_PPE;
 
 		$placesummary[0]['header']=sprintf(_MD_GWLOTO_PLACE_HAZARDS,$places['current']['place_name']);

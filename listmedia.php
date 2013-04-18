@@ -88,15 +88,14 @@ if(!isset($places['currentauth'][_GWLOTO_USERAUTH_MD_EDIT]) &&
 // searching
 $mediasearchterms='';
 $media_class='';
-$myts = myTextSanitizer::getInstance();
 if(isset($_GET['mediasearchterms'])) $mediasearchterms = cleaner($_GET['mediasearchterms']);
 if(isset($_POST['mediasearchterms'])) $mediasearchterms = cleaner($_POST['mediasearchterms']);
 $xoopsTpl->assign('mediasearchterms',$mediasearchterms);
-$mediasearchterms=$myts->addslashes($mediasearchterms);
+$mediasearchterms=dbescape($mediasearchterms);
 if(isset($_GET['media_class'])) $media_class = cleaner($_GET['media_class']);
 if(isset($_POST['media_class'])) $media_class = cleaner($_POST['media_class']);
 $xoopsTpl->assign('media_class',$media_class);
-$media_class=$myts->addslashes($media_class);
+$media_class=dbescape($media_class);
 
 $xoopsTpl->assign('mediaclass',$mediaclass);  // for select list
 

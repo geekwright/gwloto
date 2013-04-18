@@ -86,14 +86,13 @@ if ($op!='display') {
 }
 
 if($op=='add') {
-	$myts = myTextSanitizer::getInstance();
-	$sl_job_name=$myts->addslashes($job_name);
-	$sl_job_workorder=$myts->addslashes($job_workorder);
-	$sl_job_supervisor=$myts->addslashes($job_supervisor);
-	$sl_job_startdate=$myts->addslashes($job_startdate);
-	$sl_job_enddate=$myts->addslashes($job_enddate);
-	$sl_job_description=$myts->addslashes($job_description);
-	$sl_step_name=$myts->addslashes($step_name);
+	$sl_job_name=dbescape($job_name);
+	$sl_job_workorder=dbescape($job_workorder);
+	$sl_job_supervisor=dbescape($job_supervisor);
+	$sl_job_startdate=dbescape($job_startdate);
+	$sl_job_enddate=dbescape($job_enddate);
+	$sl_job_description=dbescape($job_description);
+	$sl_step_name=dbescape($step_name);
 
 	$dberr=false;
 	$dbmsg='';

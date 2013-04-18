@@ -12,20 +12,34 @@
 * @version    $Id$
 */
 
-$adminmenu[1]['title'] = _MI_GWLOTO_ADMENU;
-$adminmenu[1]['link'] = "admin/index.php";
-$adminmenu[1]['icon'] = "images/icon_home.png";
+$adminmenu[1] = array(
+	'title' => _MI_GWLOTO_ADMENU,
+	'link'  => 'admin/index.php',
+	'icon'  => 'images/admin/home.png'
+);
 
-$adminmenu[2]['title'] = _MI_GWLOTO_ADMENU_PLACE;
-$adminmenu[2]['link'] = "admin/addplace.php";
-$adminmenu[2]['icon'] = "images/icon_places.png";
+$adminmenu[] = array(
+	'title' => _MI_GWLOTO_ADMENU_ABOUT,
+	'link'  => 'admin/about.php',
+	'icon'  => 'images/admin/about.png'
+);
 
-$adminmenu[3]['title'] = _MI_GWLOTO_ADMENU_LANG;
-$adminmenu[3]['link'] = "admin/language.php";
-$adminmenu[3]['icon'] = "images/icon_languages.png";
+$adminmenu[] = array(
+	'title' => _MI_GWLOTO_ADMENU_PLACE,
+	'link'  => 'admin/addplace.php',
+	'icon'  => 'images/admin/places.png'
+);
 
-$adminmenu[4]['title'] = _MI_GWLOTO_ADMENU_PLUGINS;
-$adminmenu[4]['link'] = "admin/plugins.php";
-$adminmenu[4]['icon'] = "images/icon_plugins.png";
+$adminmenu[] = array(
+	'title' => _MI_GWLOTO_ADMENU_LANG,
+	'link'  => 'admin/language.php',
+	'icon'  => 'images/admin/languages.png'
+);
+
+$adminmenu[] = array(
+	'title' => _MI_GWLOTO_ADMENU_PLUGINS,
+	'link'  => 'admin/plugins.php',
+	'icon'  => 'images/admin/plugins.png'
+);
 
 ?>
