@@ -4,7 +4,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved.
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -15,13 +15,13 @@
 include '../../mainfile.php';
 $GLOBALS['xoopsOption']['template_main'] = 'gwloto_sortpoint.html';
 include(XOOPS_ROOT_PATH.'/header.php');
-$currentscript=basename( __FILE__ ) ;
+$currentscript=basename(__FILE__) ;
 include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
-include ('include/userauth.php');
-include ('include/userauthlist.php');
-include ('include/common.php');
-include ('include/placeenv.php');
-include ('include/actionmenu.php');
+include('include/userauth.php');
+include('include/userauthlist.php');
+include('include/common.php');
+include('include/placeenv.php');
+include('include/actionmenu.php');
 
 $selectalert=_MD_GWLOTO_SORTPOINT_SELECT;
 $sortelement='pointsort';
@@ -29,7 +29,7 @@ $sort_js = <<<ENDJSCODE
 function move(f,bDir) {
   var el = f.elements["$sortelement"]
   var idx = el.selectedIndex
-  if (idx==-1) 
+  if (idx==-1)
     alert("$selectalert")
   else {
     var nxidx = idx+( bDir? -1 : 1)
@@ -63,7 +63,7 @@ function reverseorder(f) {
 }
 
 function processForm(f) {
-  for (var i=0;i<f.length;i++) {	
+  for (var i=0;i<f.length;i++) {
     var el = f[i]
     // If reorder listbox, then generate value for hidden field
     if (el.name=="$sortelement") {
@@ -76,56 +76,57 @@ function processForm(f) {
 }
 ENDJSCODE;
 
-$xoTheme->addScript( null, array( 'type' => 'text/javascript' ), $sort_js );
+$xoTheme->addScript(null, array( 'type' => 'text/javascript' ), $sort_js);
 
 // leave if we don't have admin authority
-if($xoopsUser && $xoopsUser->isAdmin()) {
-	$op="ok";
-}
-else {
-	redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
+if ($xoopsUser && $xoopsUser->isAdmin()) {
+    $op="ok";
+} else {
+    redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
 }
 
 $op='display';
-if(isset($_POST['submit'])) {
-	$op='update';
+if (isset($_POST['submit'])) {
+    $op='update';
 }
 
 // currently only jobprint plugins are proccessed. Will need to expand.
 $plugins=getJobReports($language);
 
 // leave if there is nothing to sort
-if(count($plugins)<2) {
-	redirect_header("editplan.php?cpid=$currentplan", 3, _MD_GWLOTO_SORTPOINT_EMPTY);
+if (count($plugins)<2) {
+    redirect_header("editplan.php?cpid=$currentplan", 3, _MD_GWLOTO_SORTPOINT_EMPTY);
 }
 
-if($op=='update') {
-	if(isset($_POST['neworder'])) {
-		$neworder=array();
-		$neworder=explode(',',$_POST['neworder']);
-	}
-	else $op='display';
+if ($op=='update') {
+    if (isset($_POST['neworder'])) {
+        $neworder=array();
+        $neworder=explode(',', $_POST['neworder']);
+    } else {
+        $op='display';
+    }
 }
 
-if($op=='update') {
-	foreach ($neworder as $i => $plugin) {
-		if(isset($plugins[$plugin])) {
-			$plugins[$plugin]['plugin_seq'] = $i;
-		}
-		else $op='display';
-	}
+if ($op=='update') {
+    foreach ($neworder as $i => $plugin) {
+        if (isset($plugins[$plugin])) {
+            $plugins[$plugin]['plugin_seq'] = $i;
+        } else {
+            $op='display';
+        }
+    }
 }
 
-if($op=='update') {
-	foreach ($plugins as $i => $v) {
-		$sql ='UPDATE '.$xoopsDB->prefix('gwloto_plugin_register');
-		$sql.=' SET plugin_seq = '.$v['plugin_seq'];
-		$sql.=' WHERE plugin_id = '. $v['plugin_id']. ' ';
-		$result = $xoopsDB->queryF($sql);
-		}
-	unset($plugins);
-	$plugins=getJobReports($language);
-	$op='display';
+if ($op=='update') {
+    foreach ($plugins as $i => $v) {
+        $sql ='UPDATE '.$xoopsDB->prefix('gwloto_plugin_register');
+        $sql.=' SET plugin_seq = '.$v['plugin_seq'];
+        $sql.=' WHERE plugin_id = '. $v['plugin_id']. ' ';
+        $result = $xoopsDB->queryF($sql);
+    }
+    unset($plugins);
+    $plugins=getJobReports($language);
+    $op='display';
 }
 
 $token=0;
@@ -157,7 +158,7 @@ $form->addElement($buttontray);
 // XoopsFormSelect( string $caption, string $name, [mixed $value = null], [int $size = 1], [bool $multiple = false])
 $listbox = new XoopsFormSelect(_MD_GWLOTO_SORTPOINT_CPOINTS, 'pointsort', null, count($plugins), false);
 foreach ($plugins as $i => $v) {
-	$listbox->addOption($i, $v['name'].' - '.$v['type']);
+    $listbox->addOption($i, $v['name'].' - '.$v['type']);
 }
 $form->addElement($listbox);
 
@@ -176,14 +177,25 @@ $body.='<br /><a href="'.XOOPS_URL.'/modules/'.$dirname.'/admin/plugins.php">'._
 
 setPageTitle(_MD_GWLOTO_TITLE_SORTPLUGINS);
 
-if(isset($body)) $xoopsTpl->assign('body', $body);
+if (isset($body)) {
+    $xoopsTpl->assign('body', $body);
+}
 
-if(isset($places['choose'])) $xoopsTpl->assign('choose',$places['choose']);
-if(isset($places['crumbs'])) $xoopsTpl->assign('crumbs',$places['crumbs']);
+if (isset($places['choose'])) {
+    $xoopsTpl->assign('choose', $places['choose']);
+}
+if (isset($places['crumbs'])) {
+    $xoopsTpl->assign('crumbs', $places['crumbs']);
+}
 
-if(isset($message)) $xoopsTpl->assign('message', $message);
-if(isset($err_message)) $xoopsTpl->assign('err_message', $err_message);
-if(isset($debug)) $xoopsTpl->assign('debug', $debug);
+if (isset($message)) {
+    $xoopsTpl->assign('message', $message);
+}
+if (isset($err_message)) {
+    $xoopsTpl->assign('err_message', $err_message);
+}
+if (isset($debug)) {
+    $xoopsTpl->assign('debug', $debug);
+}
 
 include(XOOPS_ROOT_PATH.'/footer.php');
-?>

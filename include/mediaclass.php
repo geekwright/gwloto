@@ -4,7 +4,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved.
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -20,4 +20,3 @@ $mediaclass['instructions']=_MD_GWLOTO_MEDIACLASS_INSTRUCTIONS;
 $mediaclass['manual']=_MD_GWLOTO_MEDIACLASS_MANUAL;
 $mediaclass['MSDS']=_MD_GWLOTO_MEDIACLASS_MSDS;
 $mediaclass['other']=_MD_GWLOTO_MEDIACLASS_OTHER;
-?>

@@ -4,7 +4,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved.
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -27,4 +27,3 @@ _GWLOTO_USERAUTH_PL_TRANS  => _MD_GWLOTO_USERAUTH_PL_TRANS_DSC,
 _GWLOTO_USERAUTH_CP_TRANS  => _MD_GWLOTO_USERAUTH_CP_TRANS_DSC,
 _GWLOTO_USERAUTH_MD_TRANS  => _MD_GWLOTO_USERAUTH_MD_TRANS_DSC
 );
-?>

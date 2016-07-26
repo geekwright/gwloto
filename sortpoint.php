@@ -4,7 +4,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved.
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -15,15 +15,15 @@
 include '../../mainfile.php';
 $GLOBALS['xoopsOption']['template_main'] = 'gwloto_sortpoint.html';
 include(XOOPS_ROOT_PATH.'/header.php');
-$currentscript=basename( __FILE__ ) ;
+$currentscript=basename(__FILE__) ;
 include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
-include ('include/userauth.php');
-include ('include/userauthlist.php');
-include ('include/common.php');
-include ('include/placeenv.php');
-include ('include/actionmenu.php');
+include('include/userauth.php');
+include('include/userauthlist.php');
+include('include/common.php');
+include('include/placeenv.php');
+include('include/actionmenu.php');
 
-include ('include/seqoptions.php');
+include('include/seqoptions.php');
 
 $selectalert=_MD_GWLOTO_SORTPOINT_SELECT;
 $sortelement='pointsort';
@@ -31,7 +31,7 @@ $sort_js = <<<ENDJSCODE
 function move(f,bDir) {
   var el = f.elements["$sortelement"]
   var idx = el.selectedIndex
-  if (idx==-1) 
+  if (idx==-1)
     alert("$selectalert")
   else {
     var nxidx = idx+( bDir? -1 : 1)
@@ -65,7 +65,7 @@ function reverseorder(f) {
 }
 
 function processForm(f) {
-  for (var i=0;i<f.length;i++) {	
+  for (var i=0;i<f.length;i++) {
     var el = f[i]
     // If reorder listbox, then generate value for hidden field
     if (el.name=="$sortelement") {
@@ -78,23 +78,23 @@ function processForm(f) {
 }
 ENDJSCODE;
 
-$xoTheme->addScript( null, array( 'type' => 'text/javascript' ), $sort_js );
+$xoTheme->addScript(null, array( 'type' => 'text/javascript' ), $sort_js);
 
 // leave if we don't have any control plan authority
-if(!(isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT]) || isset($places['currentauth'][_GWLOTO_USERAUTH_CP_VIEW]) ||
+if (!(isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT]) || isset($places['currentauth'][_GWLOTO_USERAUTH_CP_VIEW]) ||
 isset($places['currentauth'][_GWLOTO_USERAUTH_CP_TRANS]))) {
-	redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
+    redirect_header('index.php', 3, _MD_GWLOTO_MSG_NO_AUTHORITY);
 }
 
 $show_edit=false;
-if(isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT]) || 
+if (isset($places['currentauth'][_GWLOTO_USERAUTH_CP_EDIT]) ||
 isset($places['currentauth'][_GWLOTO_USERAUTH_CP_TRANS])) {
-$show_edit=true;
+    $show_edit=true;
 }
 
 $op='display';
-if(isset($_POST['submit'])) {
-	$op='update';
+if (isset($_POST['submit'])) {
+    $op='update';
 }
 
 $cplan_id=$currentplan;
@@ -102,39 +102,41 @@ $cplan_id=$currentplan;
 $cpoints=getControlPoints($cplan_id, $language, $seqoptions[$currentseq]['sort']);
 
 // leave if there is nothing to sort
-if(count($cpoints)<2) {
-	redirect_header("editplan.php?cpid=$currentplan", 3, _MD_GWLOTO_SORTPOINT_EMPTY);
+if (count($cpoints)<2) {
+    redirect_header("editplan.php?cpid=$currentplan", 3, _MD_GWLOTO_SORTPOINT_EMPTY);
 }
 
-if($op=='update') {
-	if(isset($_POST['neworder'])) {
-		$neworder=array();
-		$neworder=explode(',',$_POST['neworder']);
-	}
-	else $op='display';
+if ($op=='update') {
+    if (isset($_POST['neworder'])) {
+        $neworder=array();
+        $neworder=explode(',', $_POST['neworder']);
+    } else {
+        $op='display';
+    }
 }
 
-if($op=='update') {
-	foreach ($neworder as $i => $point) {
-		if(isset($cpoints[$point])) {
-			$cpoints[$point][$seqoptions[$currentseq]['sort']] = $i;
-		}
-		else $op='display';
-	}
+if ($op=='update') {
+    foreach ($neworder as $i => $point) {
+        if (isset($cpoints[$point])) {
+            $cpoints[$point][$seqoptions[$currentseq]['sort']] = $i;
+        } else {
+            $op='display';
+        }
+    }
 }
 
-if($op=='update') {
-	foreach ($cpoints as $i => $v) {
-		$sql ='UPDATE '.$xoopsDB->prefix('gwloto_cpoint');
-		$sql.=' SET seq_disconnect = '.$v['seq_disconnect'];
-		$sql.=' , seq_reconnect = '.$v['seq_reconnect'];
-		$sql.=' , seq_inspection = '.$v['seq_inspection'];
-		$sql.=' WHERE cpoint_id = '. $v['cpoint_id']. ' ';
-		$result = $xoopsDB->queryF($sql);
-		}
-	unset($cpoints);
-	$cpoints=getControlPoints($cplan_id, $language, $seqoptions[$currentseq]['sort']);
-	$op='display';
+if ($op=='update') {
+    foreach ($cpoints as $i => $v) {
+        $sql ='UPDATE '.$xoopsDB->prefix('gwloto_cpoint');
+        $sql.=' SET seq_disconnect = '.$v['seq_disconnect'];
+        $sql.=' , seq_reconnect = '.$v['seq_reconnect'];
+        $sql.=' , seq_inspection = '.$v['seq_inspection'];
+        $sql.=' WHERE cpoint_id = '. $v['cpoint_id']. ' ';
+        $result = $xoopsDB->queryF($sql);
+    }
+    unset($cpoints);
+    $cpoints=getControlPoints($cplan_id, $language, $seqoptions[$currentseq]['sort']);
+    $op='display';
 }
 
 $token=0;
@@ -166,23 +168,23 @@ $form->addElement($buttontray);
 // XoopsFormSelect( string $caption, string $name, [mixed $value = null], [int $size = 1], [bool $multiple = false])
 $listbox = new XoopsFormSelect(_MD_GWLOTO_SORTPOINT_CPOINTS, 'pointsort', null, count($cpoints), false);
 foreach ($cpoints as $i => $v) {
-	$listbox->addOption($i, $v['cpoint_name'].' - '.$v[$seqoptions[$currentseq]['state']]);
+    $listbox->addOption($i, $v['cpoint_name'].' - '.$v[$seqoptions[$currentseq]['state']]);
 }
 $form->addElement($listbox);
 
 $form->addElement($buttontray);
 
-if(count($seqoptions)>1) {
-	$caption = _MD_GWLOTO_SORTPOINT_SEQ;
-	$radio=new XoopsFormRadio($caption, 'seq', $currentseq, '');
+if (count($seqoptions)>1) {
+    $caption = _MD_GWLOTO_SORTPOINT_SEQ;
+    $radio=new XoopsFormRadio($caption, 'seq', $currentseq, '');
 
-	foreach($seqoptions as $i => $v) {
-		$radio->addOption($i, $v['label']);
-	}
-//	$radio->setExtra('onChange="document.pointsort.submit()" ');
-	$form->addElement($radio);
+    foreach ($seqoptions as $i => $v) {
+        $radio->addOption($i, $v['label']);
+    }
+//  $radio->setExtra('onChange="document.pointsort.submit()" ');
+    $form->addElement($radio);
 
-	$form->addElement(new XoopsFormButton('', 'seqchange', _MD_GWLOTO_SORTPOINT_SEQ_SHOW, 'submit'));
+    $form->addElement(new XoopsFormButton('', 'seqchange', _MD_GWLOTO_SORTPOINT_SEQ_SHOW, 'submit'));
 }
 
 $form->addElement(new XoopsFormHidden('cpid', $cplan_id));
@@ -197,14 +199,25 @@ $body=$form->render();
 
 setPageTitle(_MD_GWLOTO_TITLE_SORTPOINT);
 
-if(isset($body)) $xoopsTpl->assign('body', $body);
+if (isset($body)) {
+    $xoopsTpl->assign('body', $body);
+}
 
-if(isset($places['choose'])) $xoopsTpl->assign('choose',$places['choose']);
-if(isset($places['crumbs'])) $xoopsTpl->assign('crumbs',$places['crumbs']);
+if (isset($places['choose'])) {
+    $xoopsTpl->assign('choose', $places['choose']);
+}
+if (isset($places['crumbs'])) {
+    $xoopsTpl->assign('crumbs', $places['crumbs']);
+}
 
-if(isset($message)) $xoopsTpl->assign('message', $message);
-if(isset($err_message)) $xoopsTpl->assign('err_message', $err_message);
-if(isset($debug)) $xoopsTpl->assign('debug', $debug);
+if (isset($message)) {
+    $xoopsTpl->assign('message', $message);
+}
+if (isset($err_message)) {
+    $xoopsTpl->assign('err_message', $err_message);
+}
+if (isset($debug)) {
+    $xoopsTpl->assign('debug', $debug);
+}
 
 include(XOOPS_ROOT_PATH.'/footer.php');
-?>

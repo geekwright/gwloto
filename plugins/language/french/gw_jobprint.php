@@ -1,5 +1,7 @@
 <?php
-if (!defined("XOOPS_ROOT_PATH")) die("Root path not defined");
+if (!defined("XOOPS_ROOT_PATH")) {
+    die("Root path not defined");
+}
 
 // tags
 $_GW_TAG_DANGER_IMAGE[$LANGID]='plugins/images/danger.png';
@@ -51,4 +53,3 @@ $_GW_LOG_LOCK_REQ[$LANGID]='Cadenas';
 $_GW_LOG_TAGS_REQ[$LANGID]='Étiquettes';
 $_GW_LOG_INITIALS[$LANGID]='Initiales';
 $_GW_LOG_DATE_FORMAT[$LANGID]='Y-m-d H:i';
-?>

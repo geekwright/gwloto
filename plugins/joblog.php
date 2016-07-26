@@ -5,7 +5,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved.
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -13,134 +13,142 @@
 * @version    $Id$
 */
 
-if (!defined("XOOPS_ROOT_PATH")) die("Root path not defined");
+if (!defined("XOOPS_ROOT_PATH")) {
+    die("Root path not defined");
+}
 /*
-	This is a plugin signature block for a gwloto plugin
-	[plugin]
-	[type]jobprint[/type]
-	[link]jobprintshell.php[/link]
-	[filename]joblog.php[/filename]
-	[language_file]gw_jobprint.php[/language_file]
-	[name]Log Sheet Demo[/name]
-	[description]Energy control plan log sheet. PDF output.[/description]
-	[/plugin]
+    This is a plugin signature block for a gwloto plugin
+    [plugin]
+    [type]jobprint[/type]
+    [link]jobprintshell.php[/link]
+    [filename]joblog.php[/filename]
+    [language_file]gw_jobprint.php[/language_file]
+    [name]Log Sheet Demo[/name]
+    [description]Energy control plan log sheet. PDF output.[/description]
+    [/plugin]
 
 */
 
 // load tcpdf library
 $tcpdfPath=getTcpdfPath();
-if (file_exists($tcpdfPath) ) {
-	require_once($tcpdfPath);
-} else die(_MD_GWLOTO_NEED_TCPDF);
+if (file_exists($tcpdfPath)) {
+    require_once($tcpdfPath);
+} else {
+    die(_MD_GWLOTO_NEED_TCPDF);
+}
 
 $pdf=null;
 
 // this is to facilitate translation of sequence (disonnect, inspect reconnect) data
 $seqstate=$seqoptions[$currentseq]['sort'];
 
-function myBeginJobFunc($jobdata,$jobstepdata,$pointdata) {
-global $pdf;
+function myBeginJobFunc($jobdata, $jobstepdata, $pointdata)
+{
+    global $pdf;
 
-	$pdf = new TCPDF('L', 'in', 'LETTER', true, 'UTF-8', false);
-	$pdf->SetTitle($jobdata['job_name']);
-	$pdf->SetFont('helvetica', '', 10, '', true);
+    $pdf = new TCPDF('L', 'in', 'LETTER', true, 'UTF-8', false);
+    $pdf->SetTitle($jobdata['job_name']);
+    $pdf->SetFont('helvetica', '', 10, '', true);
 
-	$pdf->setPrintHeader(false);
-	$pdf->setPrintFooter(false);
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
 
-	$pdf->SetMargins(0.2, 0.2, 0.2, true);
-	$pdf->SetAutoPageBreak(true,0.2);
+    $pdf->SetMargins(0.2, 0.2, 0.2, true);
+    $pdf->SetAutoPageBreak(true, 0.2);
 
-//	$pdf->AliasNbPages('{nb}');
-//	$pdf->AliasNumPage('{pnb}');
+    // $pdf->AliasNbPages('{nb}');
+    // $pdf->AliasNumPage('{pnb}');
 
-	$pdf->SetDisplayMode('default', 'SinglePage', 'UseNone');
-
+    $pdf->SetDisplayMode('default', 'SinglePage', 'UseNone');
 }
 
-function myEndJobFunc($jobdata,$jobstepdata,$pointdata) {
-global $pdf;
-	ob_clean();
-	$zapus = array(' ', ',', '.', '/', '\\','<','>','|');
-	$filename = str_replace($zapus, '_', $jobdata['job_name']);
-	$pdf->Output('log_'.$filename.'.pdf', 'I'); //  I=send inline, D=force download
+function myEndJobFunc($jobdata, $jobstepdata, $pointdata)
+{
+    global $pdf;
+    ob_clean();
+    $zapus = array(' ', ',', '.', '/', '\\','<','>','|');
+    $filename = str_replace($zapus, '_', $jobdata['job_name']);
+    $pdf->Output('log_'.$filename.'.pdf', 'I'); //  I=send inline, D=force download
 }
 
-function myBeginStepFunc($jobdata,$jobstepdata,$pointdata) {
-global $pdf;
-global $body,$language,$seqstate;
+function myBeginStepFunc($jobdata, $jobstepdata, $pointdata)
+{
+    global $pdf;
+    global $body,$language,$seqstate;
 
-$body='';
+    $body='';
 
 // get headings from language file previously loaded
 $lid=$language;
-$LOG_TITLE=$GLOBALS['_GW_LOG_TITLE'][$lid];
+    $LOG_TITLE=$GLOBALS['_GW_LOG_TITLE'][$lid];
 
-$LOG_JOB_NAME=$GLOBALS['_GW_LOG_JOB_NAME'][$lid];
-$LOG_JOB_PHASE=$GLOBALS['_GW_LOG_JOB_PHASE'][$lid];
-$LOG_JOB_SEQUENCE=$GLOBALS['_GW_LOG_JOB_SEQUENCE'][$lid][$seqstate];
+    $LOG_JOB_NAME=$GLOBALS['_GW_LOG_JOB_NAME'][$lid];
+    $LOG_JOB_PHASE=$GLOBALS['_GW_LOG_JOB_PHASE'][$lid];
+    $LOG_JOB_SEQUENCE=$GLOBALS['_GW_LOG_JOB_SEQUENCE'][$lid][$seqstate];
 //['seq_disconnect'], ['seq_inspection'], ['seq_reconnect']
-$LOG_PAGE_NUMBERS=sprintf($GLOBALS['_GW_LOG_PAGE_NUMBERS'][$lid],$pdf->getAliasNumPage(),$pdf->getAliasNbPages());
-$LOG_PLACE=$GLOBALS['_GW_LOG_PLACE'][$lid];
-$LOG_WORKORDER=$GLOBALS['_GW_LOG_WORKORDER'][$lid];
-$LOG_SUPERVISOR=$GLOBALS['_GW_LOG_SUPERVISOR'][$lid];
-$LOG_STARTDATE=$GLOBALS['_GW_LOG_STARTDATE'][$lid];
-$LOG_ENDDATE=$GLOBALS['_GW_LOG_ENDDATE'][$lid];
-$LOG_DESCRIPTION=$GLOBALS['_GW_LOG_DESCRIPTION'][$lid];
-$LOG_SIGNATURES=$GLOBALS['_GW_LOG_SIGNATURES'][$lid];
-$LOG_PRINTDATE=$GLOBALS['_GW_LOG_PRINTDATE'][$lid];
-$LOG_PLAN_NAME=$GLOBALS['_GW_LOG_PLAN_NAME'][$lid];
-$LOG_STEP_NAME=$GLOBALS['_GW_LOG_STEP_NAME'][$lid];
-$LOG_ASSIGNED_TO=$GLOBALS['_GW_LOG_ASSIGNED_TO'][$lid];
-$LOG_REVIEWS=$GLOBALS['_GW_LOG_REVIEWS'][$lid];
-$LOG_HAZARD_INV=$GLOBALS['_GW_LOG_HAZARD_INV'][$lid];
-$LOG_REQUIRED_PPE=$GLOBALS['_GW_LOG_REQUIRED_PPE'][$lid];
-$LOG_REQ_PERSONNEL=$GLOBALS['_GW_LOG_REQ_PERSONNEL'][$lid];
-$LOG_REQUIREMENTS=$GLOBALS['_GW_LOG_REQUIREMENTS'][$lid];
-$LOG_POINT_TOTAL=$GLOBALS['_GW_LOG_POINT_TOTAL'][$lid];
-$LOG_LOCK_TOTAL=$GLOBALS['_GW_LOG_LOCK_TOTAL'][$lid];
-$LOG_TAG_TOTAL=$GLOBALS['_GW_LOG_TAG_TOTAL'][$lid];
-$LOG_POINT_INST=$GLOBALS['_GW_LOG_POINT_INST'][$lid];
-$LOG_NORMAL_STATE=$GLOBALS['_GW_LOG_NORMAL_STATE'][$lid];
-$LOG_LOCK_REQ=$GLOBALS['_GW_LOG_LOCK_REQ'][$lid];
-$LOG_TAGS_REQ=$GLOBALS['_GW_LOG_TAGS_REQ'][$lid];
-$LOG_INITIALS=$GLOBALS['_GW_LOG_INITIALS'][$lid];
-$LOG_DATE_FORMAT=$GLOBALS['_GW_LOG_DATE_FORMAT'][$lid];
+$LOG_PAGE_NUMBERS=sprintf($GLOBALS['_GW_LOG_PAGE_NUMBERS'][$lid], $pdf->getAliasNumPage(), $pdf->getAliasNbPages());
+    $LOG_PLACE=$GLOBALS['_GW_LOG_PLACE'][$lid];
+    $LOG_WORKORDER=$GLOBALS['_GW_LOG_WORKORDER'][$lid];
+    $LOG_SUPERVISOR=$GLOBALS['_GW_LOG_SUPERVISOR'][$lid];
+    $LOG_STARTDATE=$GLOBALS['_GW_LOG_STARTDATE'][$lid];
+    $LOG_ENDDATE=$GLOBALS['_GW_LOG_ENDDATE'][$lid];
+    $LOG_DESCRIPTION=$GLOBALS['_GW_LOG_DESCRIPTION'][$lid];
+    $LOG_SIGNATURES=$GLOBALS['_GW_LOG_SIGNATURES'][$lid];
+    $LOG_PRINTDATE=$GLOBALS['_GW_LOG_PRINTDATE'][$lid];
+    $LOG_PLAN_NAME=$GLOBALS['_GW_LOG_PLAN_NAME'][$lid];
+    $LOG_STEP_NAME=$GLOBALS['_GW_LOG_STEP_NAME'][$lid];
+    $LOG_ASSIGNED_TO=$GLOBALS['_GW_LOG_ASSIGNED_TO'][$lid];
+    $LOG_REVIEWS=$GLOBALS['_GW_LOG_REVIEWS'][$lid];
+    $LOG_HAZARD_INV=$GLOBALS['_GW_LOG_HAZARD_INV'][$lid];
+    $LOG_REQUIRED_PPE=$GLOBALS['_GW_LOG_REQUIRED_PPE'][$lid];
+    $LOG_REQ_PERSONNEL=$GLOBALS['_GW_LOG_REQ_PERSONNEL'][$lid];
+    $LOG_REQUIREMENTS=$GLOBALS['_GW_LOG_REQUIREMENTS'][$lid];
+    $LOG_POINT_TOTAL=$GLOBALS['_GW_LOG_POINT_TOTAL'][$lid];
+    $LOG_LOCK_TOTAL=$GLOBALS['_GW_LOG_LOCK_TOTAL'][$lid];
+    $LOG_TAG_TOTAL=$GLOBALS['_GW_LOG_TAG_TOTAL'][$lid];
+    $LOG_POINT_INST=$GLOBALS['_GW_LOG_POINT_INST'][$lid];
+    $LOG_NORMAL_STATE=$GLOBALS['_GW_LOG_NORMAL_STATE'][$lid];
+    $LOG_LOCK_REQ=$GLOBALS['_GW_LOG_LOCK_REQ'][$lid];
+    $LOG_TAGS_REQ=$GLOBALS['_GW_LOG_TAGS_REQ'][$lid];
+    $LOG_INITIALS=$GLOBALS['_GW_LOG_INITIALS'][$lid];
+    $LOG_DATE_FORMAT=$GLOBALS['_GW_LOG_DATE_FORMAT'][$lid];
 // end language file processing
 
 $job_name=$jobdata['job_name'];
 //$printed_date=$jobdata['printed_date'];
 $printed_date=date($LOG_DATE_FORMAT, $jobdata['printed_date_raw']);
-$job_workorder=$jobdata['job_workorder'];
-$job_supervisor=$jobdata['job_supervisor'];
-$job_startdate=$jobdata['job_startdate'];
-$job_enddate=$jobdata['job_enddate'];
-$job_description=nl2br($jobdata['job_description']);
+    $job_workorder=$jobdata['job_workorder'];
+    $job_supervisor=$jobdata['job_supervisor'];
+    $job_startdate=$jobdata['job_startdate'];
+    $job_enddate=$jobdata['job_enddate'];
+    $job_description=nl2br($jobdata['job_description']);
 
-$step_name=$jobstepdata[$language]['step_name'];
-$display_job_step_status=$jobstepdata[$language]['display_job_step_status'];
-$assigned_name=$jobstepdata[$language]['assigned_name'];
-$pointcount=$jobstepdata[$language]['pointcount'];
-$lockcount=$jobstepdata[$language]['lockcount'];
-$tagcount=$jobstepdata[$language]['tagcount'];
-$place_name=$jobstepdata[$language]['place_name'];
-$place_hazard_inventory=nl2br($jobstepdata[$language]['place_hazard_inventory']);
-$place_required_ppe=nl2br($jobstepdata[$language]['place_required_ppe']);
-$cplan_name=$jobstepdata[$language]['cplan_name'];
-$cplan_review=nl2br($jobstepdata[$language]['cplan_review']);
-$hazard_inventory=nl2br($jobstepdata[$language]['hazard_inventory']);
-$required_ppe=nl2br($jobstepdata[$language]['required_ppe']);
-$authorized_personnel=nl2br($jobstepdata[$language]['authorized_personnel']);
-$additional_requirements=nl2br($jobstepdata[$language]['additional_requirements']);
+    $step_name=$jobstepdata[$language]['step_name'];
+    $display_job_step_status=$jobstepdata[$language]['display_job_step_status'];
+    $assigned_name=$jobstepdata[$language]['assigned_name'];
+    $pointcount=$jobstepdata[$language]['pointcount'];
+    $lockcount=$jobstepdata[$language]['lockcount'];
+    $tagcount=$jobstepdata[$language]['tagcount'];
+    $place_name=$jobstepdata[$language]['place_name'];
+    $place_hazard_inventory=nl2br($jobstepdata[$language]['place_hazard_inventory']);
+    $place_required_ppe=nl2br($jobstepdata[$language]['place_required_ppe']);
+    $cplan_name=$jobstepdata[$language]['cplan_name'];
+    $cplan_review=nl2br($jobstepdata[$language]['cplan_review']);
+    $hazard_inventory=nl2br($jobstepdata[$language]['hazard_inventory']);
+    $required_ppe=nl2br($jobstepdata[$language]['required_ppe']);
+    $authorized_personnel=nl2br($jobstepdata[$language]['authorized_personnel']);
+    $additional_requirements=nl2br($jobstepdata[$language]['additional_requirements']);
 
-$placenamearray=$jobstepdata[$language]['fullplacename'];
-$fullplacename='';
-foreach($placenamearray as $v) {
-	if($fullplacename!='') $fullplacename.=', ';
-	$fullplacename.=$v;
-}
+    $placenamearray=$jobstepdata[$language]['fullplacename'];
+    $fullplacename='';
+    foreach ($placenamearray as $v) {
+        if ($fullplacename!='') {
+            $fullplacename.=', ';
+        }
+        $fullplacename.=$v;
+    }
 
-$tbl = <<<EOD
+    $tbl = <<<EOD
 <table border="1" width="100%" cellpadding="3" >
 <thead>
  <tr style="background-color:#EEEEEE;color:#000000;">
@@ -190,14 +198,14 @@ $tbl = <<<EOD
 </table>
 EOD;
 
-	$pdf->AddPage();
-	$pdf->SetXY(0.2, 0.2);
-	$pdf->writeHTML($tbl, true, false, false, false, '');
+    $pdf->AddPage();
+    $pdf->SetXY(0.2, 0.2);
+    $pdf->writeHTML($tbl, true, false, false, false, '');
 
-	$pdf->AddPage();
-	$pdf->SetXY(0.2, 0.2);
+    $pdf->AddPage();
+    $pdf->SetXY(0.2, 0.2);
 
-$tbl = <<<EOD
+    $tbl = <<<EOD
 <table border="1" width="100%" cellpadding="2" >
 <thead>
  <tr style="background-color:#EEEEEE;color:#000000;">
@@ -223,40 +231,42 @@ $tbl = <<<EOD
 </thead>
 EOD;
 
-	$body.=$tbl;
+    $body.=$tbl;
 }
 
-function myEndStepFunc($jobdata,$jobstepdata,$pointdata) {
-global $pdf;
-global $body;
-	$body.='</table>';
-	$pdf->writeHTML($body, true, false, false, false, '');
-//	$pdf->endPage();
-	$body='';
+function myEndStepFunc($jobdata, $jobstepdata, $pointdata)
+{
+    global $pdf;
+    global $body;
+    $body.='</table>';
+    $pdf->writeHTML($body, true, false, false, false, '');
+    // $pdf->endPage();
+    $body='';
 }
 
-function myEachPointFunc($jobdata,$jobstepdata,$pointdata) {
-global $pdf;
-global $body, $language;
+function myEachPointFunc($jobdata, $jobstepdata, $pointdata)
+{
+    global $pdf;
+    global $body, $language;
 
-$locks_required=$pointdata[$language]['locks_required'];
-$tags_required=$pointdata[$language]['tags_required'];
-$cpoint_name=$pointdata[$language]['cpoint_name'];
-$disconnect_instructions=nl2br($pointdata[$language]['disconnect_instructions']);
-$disconnect_state=$pointdata[$language]['disconnect_state'];
-$reconnect_instructions=nl2br($pointdata[$language]['reconnect_instructions']);
-$reconnect_state=$pointdata[$language]['reconnect_state'];
-$inspection_instructions=nl2br($pointdata[$language]['inspection_instructions']);
-$inspection_state=$pointdata[$language]['inspection_state'];
-$instructions=nl2br($pointdata[$language]['instructions']);
-$state=$pointdata[$language]['state'];
+    $locks_required=$pointdata[$language]['locks_required'];
+    $tags_required=$pointdata[$language]['tags_required'];
+    $cpoint_name=$pointdata[$language]['cpoint_name'];
+    $disconnect_instructions=nl2br($pointdata[$language]['disconnect_instructions']);
+    $disconnect_state=$pointdata[$language]['disconnect_state'];
+    $reconnect_instructions=nl2br($pointdata[$language]['reconnect_instructions']);
+    $reconnect_state=$pointdata[$language]['reconnect_state'];
+    $inspection_instructions=nl2br($pointdata[$language]['inspection_instructions']);
+    $inspection_state=$pointdata[$language]['inspection_state'];
+    $instructions=nl2br($pointdata[$language]['instructions']);
+    $state=$pointdata[$language]['state'];
 
-$initials="<br />";
-for ($i = 1; $i <= max($locks_required,$tags_required); $i++) {
-	$initials.="<br />__________";
-}
+    $initials="<br />";
+    for ($i = 1; $i <= max($locks_required, $tags_required); $i++) {
+        $initials.="<br />__________";
+    }
 
-$tbl = <<<EOD
+    $tbl = <<<EOD
  <tr>
   <td width="50%"><b>$cpoint_name</b><br />$instructions</td>
   <td width="15%">$reconnect_state</td>
@@ -267,12 +277,10 @@ $tbl = <<<EOD
  </tr>
 EOD;
 
-	$body.=$tbl;
+    $body.=$tbl;
 }
 
 $myPrint=new gwlotoPrintJob($currentjob, $currentplan, $currentseq, $language, 'myEachPointFunc', 'myBeginStepFunc', 'myEndStepFunc', 'myBeginJobFunc', 'myEndJobFunc');
 
 $body='';
 $myPrint->doPrint();
-
-?>

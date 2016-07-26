@@ -1,67 +1,67 @@
 
 .clipboard table {
-	width: 60%;
-	float: right;
+    width: 60%;
+    float: right;
 }
 
 .clipboard th {
-	font-size: 0.7em;
+    font-size: 0.7em;
 }
 
 .clipboard td.head {
-	width: 33%;
-	font-size: 0.8em;
-	padding-top: 1px;
-	padding-bottom: 1px;
-	background-color: #dfd;
+    width: 33%;
+    font-size: 0.8em;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    background-color: #dfd;
 }
 
 .clipboard td.even {
-	padding-top: 1px;
-	padding-bottom: 1px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
 
 #op_move, #op_copy, #op_cancel, #op_addstep
 {
-	font-size: 0.7em; font-weight: normal; text-decoration: none;
-	padding: 1px;
+    font-size: 0.7em; font-weight: normal; text-decoration: none;
+    padding: 1px;
 }
 
 .joblist {
-	border: 1px solid #999; width: 100%;
+    border: 1px solid #999; width: 100%;
 }
 
 .joblist a {
-	color: #333;
-	text-decoration: none;
-	font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
 }
 .joblist a:hover {
-	color: #111;
-	text-decoration: underline;
+    color: #111;
+    text-decoration: underline;
 }
 
 table.joblist tr.odd td {
-	background-color: #f9fae6;
+    background-color: #f9fae6;
 }
 table.joblist tr.even td {
-	background-color: #feffe8;
+    background-color: #feffe8;
 }
 
 div.pagination.default{
-	width: 100%; text-align: right;
+    width: 100%; text-align: right;
 }
 
 div.gBranding {
-	display: inline;
+    display: inline;
 }
 
 .mediamenu {
-	width: 100%;
-	padding-top: 0.5em;
-	padding-bottom: 0.6em;
+    width: 100%;
+    padding-top: 0.5em;
+    padding-bottom: 0.6em;
 }
 
 .medialist {
-	border: 1px solid #999; width: 100%;
+    border: 1px solid #999; width: 100%;
 }

@@ -4,7 +4,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010-2011 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010-2011 geekwright, LLC. All rights reserved.
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -12,7 +12,9 @@
 * @version    $Id$
 */
 
-if (!defined("XOOPS_ROOT_PATH")) die("Root path not defined");
+if (!defined("XOOPS_ROOT_PATH")) {
+    die("Root path not defined");
+}
 
 $modversion['name'] = _MI_GWLOTO_NAME;
 $modversion['version'] = '1.0';
@@ -21,13 +23,16 @@ $modversion['author'] = "Richard Griffith - richard@geekwright.com";
 $modversion['credits'] = "geekwight, LLC";
 $modversion['license'] = 'GNU General Public License V2 or later';
 $modversion['official'] = 0;
-if (defined("ICMS_ROOT_PATH")) $modversion['image'] = "images/icon_big.png";
-else $modversion['image'] = "images/icon.png";
-$modversion['dirname'] = basename( dirname( __FILE__ ) ) ;
+if (defined("ICMS_ROOT_PATH")) {
+    $modversion['image'] = "images/icon_big.png";
+} else {
+    $modversion['image'] = "images/icon.png";
+}
+$modversion['dirname'] = basename(dirname(__FILE__)) ;
 
 // things for ModuleAdmin() class
 $modversion['license_url'] = XOOPS_URL.'/modules/gwreports/docs/license.txt';
-$modversion['license_url'] = substr($modversion['license_url'],strpos($modversion['license_url'],'//')+2);
+$modversion['license_url'] = substr($modversion['license_url'], strpos($modversion['license_url'], '//')+2);
 $modversion['release_date']     = '2013/05/01';
 $modversion['module_website_url'] = 'geekwright.com';
 $modversion['module_website_name'] = 'geekwright, LLC';
@@ -214,4 +219,3 @@ $modversion['templates'][$i]['description'] = 'Media Center';
 ++$i;
 $modversion['templates'][$i]['file'] = 'gwloto_listjobs.html';
 $modversion['templates'][$i]['description'] = 'List Jobs';
-?>

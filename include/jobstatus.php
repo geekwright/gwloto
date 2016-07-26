@@ -4,7 +4,7 @@
 *
 * This file is part of gwloto - geekwright lockout tagout
 *
-* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved. 
+* @copyright  Copyright © 2010 geekwright, LLC. All rights reserved.
 * @license    gwloto/docs/license.txt  GNU General Public License (GPL)
 * @since      1.0
 * @author     Richard Griffith <richard@geekwright.com>
@@ -34,21 +34,19 @@ $stepseqop['disconnected']=$i;
 
 $stepstatus['inspecting']=_MD_GWLOTO_JOBSTEP_STATUS_WIP_INSP;
 $stepstatus['inspected']=_MD_GWLOTO_JOBSTEP_STATUS_INSP;
-if(isset($xoopsModuleConfig['show_inspect']) && $xoopsModuleConfig['show_inspect']) {
-	++$i;
-	$stepseqop['inspecting']=$i;
-	$stepseqop['inspected']=$i;
+if (isset($xoopsModuleConfig['show_inspect']) && $xoopsModuleConfig['show_inspect']) {
+    ++$i;
+    $stepseqop['inspecting']=$i;
+    $stepseqop['inspected']=$i;
 }
 
 $stepstatus['reconnecting']=_MD_GWLOTO_JOBSTEP_STATUS_WIP_RECON;
 $stepstatus['reconnected']=_MD_GWLOTO_JOBSTEP_STATUS_RECON;
-if(isset($xoopsModuleConfig['show_reconnect']) && $xoopsModuleConfig['show_reconnect']) {
-	++$i;
-	$stepseqop['reconnecting']=$i;
-	$stepseqop['reconnected']=$i;
+if (isset($xoopsModuleConfig['show_reconnect']) && $xoopsModuleConfig['show_reconnect']) {
+    ++$i;
+    $stepseqop['reconnecting']=$i;
+    $stepseqop['reconnected']=$i;
 }
 
 $stepstatus['complete']=_MD_GWLOTO_JOBSTEP_STATUS_COMPLETE;
 $stepstatus['canceled']=_MD_GWLOTO_JOBSTEP_STATUS_CANCELED;
-
-?>

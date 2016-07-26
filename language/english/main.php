@@ -1,10 +1,12 @@
 <?php
-if (!defined('XOOPS_ROOT_PATH')) die('Root path not defined');
-define('_MD_GWLOTO_TITLE','geekwright Lockout Tagout');
-define('_MD_GWLOTO_TITLE_SHORT','gwloto : '); // prepends to html page title
+if (!defined('XOOPS_ROOT_PATH')) {
+    die('Root path not defined');
+}
+define('_MD_GWLOTO_TITLE', 'geekwright Lockout Tagout');
+define('_MD_GWLOTO_TITLE_SHORT', 'gwloto : '); // prepends to html page title
 
-define('_MD_GWLOTO_TITLE_INDEX','Place Browser');
-define('_MD_GWLOTO_TITLE_EDITAUTHS','Set User Authorities');
+define('_MD_GWLOTO_TITLE_INDEX', 'Place Browser');
+define('_MD_GWLOTO_TITLE_EDITAUTHS', 'Set User Authorities');
 define('_MD_GWLOTO_TITLE_SELECT',   'Clipboard Actions');
 
 define('_MD_GWLOTO_TITLE_NEWJOB',   'Start New Energy Control Job');
@@ -13,32 +15,32 @@ define('_MD_GWLOTO_TITLE_VIEWJOB',  'Energy Control Job Overview');
 define('_MD_GWLOTO_TITLE_VIEWSTEP', 'Energy Control Job Step Detail');
 define('_MD_GWLOTO_TITLE_LISTJOBS', 'Search Energy Control Jobs');
 
-define('_MD_GWLOTO_TITLE_EDITPLACE','Edit Places');
+define('_MD_GWLOTO_TITLE_EDITPLACE', 'Edit Places');
 define('_MD_GWLOTO_TITLE_NEWPLACE', 'Add a New Place');
 
 define('_MD_GWLOTO_TITLE_VIEWPLAN', 'View Energy Control Plan');
 define('_MD_GWLOTO_TITLE_EDITPLAN', 'Edit Energy Control Plan');
 define('_MD_GWLOTO_TITLE_NEWPLAN',  'Start New Energy Control Plan');
 
-define('_MD_GWLOTO_TITLE_VIEWPOINT','View Energy Control Point');
-define('_MD_GWLOTO_TITLE_EDITPOINT','Edit Energy Control Point');
+define('_MD_GWLOTO_TITLE_VIEWPOINT', 'View Energy Control Point');
+define('_MD_GWLOTO_TITLE_EDITPOINT', 'Edit Energy Control Point');
 define('_MD_GWLOTO_TITLE_NEWPOINT', 'Add New Energy Control Point');
-define('_MD_GWLOTO_TITLE_SORTPOINT','Reorder Energy Control Points');
+define('_MD_GWLOTO_TITLE_SORTPOINT', 'Reorder Energy Control Points');
 
-define('_MD_GWLOTO_TITLE_VIEWMEDIA','Media Details');
+define('_MD_GWLOTO_TITLE_VIEWMEDIA', 'Media Details');
 define('_MD_GWLOTO_TITLE_NEWMEDIA', 'Add New Media File');
-define('_MD_GWLOTO_TITLE_LISTMEDIA','Browse Media Files');
-define('_MD_GWLOTO_TITLE_ATTACHMEDIA','Attach Media File');
+define('_MD_GWLOTO_TITLE_LISTMEDIA', 'Browse Media Files');
+define('_MD_GWLOTO_TITLE_ATTACHMEDIA', 'Attach Media File');
 
-define('_MD_GWLOTO_TITLE_SORTPLUGINS','Reorder Plugins');
-define('_MD_GWLOTO_TITLE_EDITPLUGIN','Edit Plugin');
+define('_MD_GWLOTO_TITLE_SORTPLUGINS', 'Reorder Plugins');
+define('_MD_GWLOTO_TITLE_EDITPLUGIN', 'Edit Plugin');
 
-define('_MD_GWLOTO_MSG_NO_ACCESS','You do not have any defined access. Please contact your supervisor.');
-define('_MD_GWLOTO_MSG_ANON_ACCESS','You are not currently signed in, and no access for anonymous users is defined.');
-define('_MD_GWLOTO_MSG_NO_AUTHORITY','You do not have the required authority to access the requested resources.');
-define('_MD_GWLOTO_MSG_BAD_PARMS','Invalid parameters for operation.');
-define('_MD_GWLOTO_MSG_BAD_TOKEN','Expired or invalid security token in request.');
-define('_MD_GWLOTO_MSG_NO_TRANSLATE_DEFAULT','Translate authority cannot be used to alter default language versions.');
+define('_MD_GWLOTO_MSG_NO_ACCESS', 'You do not have any defined access. Please contact your supervisor.');
+define('_MD_GWLOTO_MSG_ANON_ACCESS', 'You are not currently signed in, and no access for anonymous users is defined.');
+define('_MD_GWLOTO_MSG_NO_AUTHORITY', 'You do not have the required authority to access the requested resources.');
+define('_MD_GWLOTO_MSG_BAD_PARMS', 'Invalid parameters for operation.');
+define('_MD_GWLOTO_MSG_BAD_TOKEN', 'Expired or invalid security token in request.');
+define('_MD_GWLOTO_MSG_NO_TRANSLATE_DEFAULT', 'Translate authority cannot be used to alter default language versions.');
 
 define('_MD_GWLOTO_ALL_AUTH_PLACES', 'All Places');
 
@@ -123,26 +125,26 @@ define('_MD_GWLOTO_NEWPLAN_DB_ERROR', 'Could not add Control Plan. ');
 
 define('_MD_GWLOTO_CPOINT_RPT_TITLE', 'Control Points');
 define('_MD_GWLOTO_CPOINT_RPT_NAME', 'Point Name');
-define('_MD_GWLOTO_CPOINT_RPT_DISC_INST','Disconnect Instructions');
-define('_MD_GWLOTO_CPOINT_RPT_DISC_STATE','Disconnected');
-define('_MD_GWLOTO_CPOINT_RPT_LOCKS_REQ','Locks');
-define('_MD_GWLOTO_CPOINT_RPT_TAGS_REQ','Tags');
-define('_MD_GWLOTO_CPOINT_RPT_RECON_INST','Reconnect Instructions');
-define('_MD_GWLOTO_CPOINT_RPT_RECON_STATE','Connected');
-define('_MD_GWLOTO_CPOINT_RPT_INSP_INST','Inspection Instructions');
+define('_MD_GWLOTO_CPOINT_RPT_DISC_INST', 'Disconnect Instructions');
+define('_MD_GWLOTO_CPOINT_RPT_DISC_STATE', 'Disconnected');
+define('_MD_GWLOTO_CPOINT_RPT_LOCKS_REQ', 'Locks');
+define('_MD_GWLOTO_CPOINT_RPT_TAGS_REQ', 'Tags');
+define('_MD_GWLOTO_CPOINT_RPT_RECON_INST', 'Reconnect Instructions');
+define('_MD_GWLOTO_CPOINT_RPT_RECON_STATE', 'Connected');
+define('_MD_GWLOTO_CPOINT_RPT_INSP_INST', 'Inspection Instructions');
 
 // Control Point Form
 define('_MD_GWLOTO_NEWPOINT_FORM', 'New Control Point - %s');
 define('_MD_GWLOTO_EDITPOINT_FORM', 'Edit Control Point');
 define('_MD_GWLOTO_EDITPOINT_NAME', 'Control Point Name');
-define('_MD_GWLOTO_EDITPOINT_DISC_INST','Disconnect Instructions');
-define('_MD_GWLOTO_EDITPOINT_DISC_STATE','Disconnect State');
-define('_MD_GWLOTO_EDITPOINT_LOCKS_REQ','Locks Required');
-define('_MD_GWLOTO_EDITPOINT_TAGS_REQ','Number of Tags Copies');
-define('_MD_GWLOTO_EDITPOINT_RECON_INST','Reconnect Instructions');
-define('_MD_GWLOTO_EDITPOINT_RECON_STATE','Reconnect State');
-define('_MD_GWLOTO_EDITPOINT_INSP_INST','Inspection Instructions');
-define('_MD_GWLOTO_EDITPOINT_INSP_STATE','Inspection State');
+define('_MD_GWLOTO_EDITPOINT_DISC_INST', 'Disconnect Instructions');
+define('_MD_GWLOTO_EDITPOINT_DISC_STATE', 'Disconnect State');
+define('_MD_GWLOTO_EDITPOINT_LOCKS_REQ', 'Locks Required');
+define('_MD_GWLOTO_EDITPOINT_TAGS_REQ', 'Number of Tags Copies');
+define('_MD_GWLOTO_EDITPOINT_RECON_INST', 'Reconnect Instructions');
+define('_MD_GWLOTO_EDITPOINT_RECON_STATE', 'Reconnect State');
+define('_MD_GWLOTO_EDITPOINT_INSP_INST', 'Inspection Instructions');
+define('_MD_GWLOTO_EDITPOINT_INSP_STATE', 'Inspection State');
 
 define('_MD_GWLOTO_NEWPOINT_ADD_BUTTON_DSC', 'Add New Control Point');
 define('_MD_GWLOTO_NEWPOINT_ADD_BUTTON', 'Add');
@@ -420,13 +422,12 @@ define('_MD_GWLOTO_PLUGIN_NAME', 'Plugin Name');
 define('_MD_GWLOTO_PLUGIN_DESCRIPTION', 'Description');
 
 //new since 1.0
-define('_MD_GWLOTO_NOSCRIPT_GO','Go'); // Navigation submit button
+define('_MD_GWLOTO_NOSCRIPT_GO', 'Go'); // Navigation submit button
 // group authority form
-define('_MD_GWLOTO_TITLE_EDITGRPAUTHS','Set Group Authorities');
+define('_MD_GWLOTO_TITLE_EDITGRPAUTHS', 'Set Group Authorities');
 define('_MD_GWLOTO_GROUPAUTH_FORM', 'Set Group Authorities');
 define('_MD_GWLOTO_GROUPAUTH_GROUP', 'Select Group');
 define('_MD_GWLOTO_GROUPAUTH_DISPLAY', 'Show current authorities');
 define('_MD_GWLOTO_USERAUTH_BY_USER', 'Edit Users');
 define('_MD_GWLOTO_USERAUTH_BY_GROUP', 'Edit Groups');
 define('_MD_GWLOTO_USERAUTH_RPT_GROUP', 'Group');
-?>
